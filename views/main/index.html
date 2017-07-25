@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Main Page</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../public/css/index.css" />
+		<script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
+	</head>
+
+	<body>
+		<div class="head-nav">
+			<a class="nav-title">TTBLOG</a>
+			<a class="nav-content">TTBLOG</a>
+			<a class="nav-content">TTBLOG</a>
+			<a class="nav-content">TTBLOG</a>
+		</div>
+		<div class="banner-wrap">
+			<div class="login" id="register">
+				<h3>注册</h3>
+				<span>用户：<input name="username" type="text"/></span><br/>
+				<span>密码：<input name="password" type="text"/></span><br/>
+				<span>确认：<input name="repassword" type="text"/></span><br/>
+				<span><input class="submit" type="button" value="提交"/></span>
+				<span>已有账号？马上<a href="javascript:;">登录</a></span>
+			</div>
+
+			<div class="login" id="login" style="display:none;">
+				<h3>登录</h3>
+				<span>用户：<input type="text"/></span><br/>
+				<span>密码：<input type="text"/></span><br/>
+				<span><input type="button" value="提交"/></span>
+				<span>没有账号？马上<a href="javascript:;">注册</a></span>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		// 登录注册的切换
+		$('#register a').click(function() {
+			$('#login').show();
+			$('#register').hide();
+		});
+
+		$('#login a').click(function() {
+			$('#login').hide();
+			$('#register').show();
+		});
+
+		$('#register .submit').click(function() {
+			// 通过ajax提交交
+			$.ajax({
+				type: 'post',
+				url: '/api/user/register',
+				data: {
+					username: $('#register').find('[name="username"]').val(),
+					password: $('#register').find('[name="password"]').val(),
+					repassword: $('#register').find('[name="repassword"]').val()
+				},
+				dataType: 'json',
+				success: function(data) {
+					alert(data.message);
+					if(!data.code) {
+						// 注册成功
+						$('#register').hide();
+						$('#login').show();
+					}
+				}
+			});
+		});
+	</script>
+
+</html>
