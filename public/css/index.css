@@ -21,4 +21,9 @@ body{
 }
 .head-nav a{
 	margin-right: 15px;
+	color: #000;
+	text-decoration: none;
+}
+#loginInfo{
+	
 }

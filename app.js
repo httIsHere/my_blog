@@ -9,6 +9,27 @@ var mongoose = require('mongoose');
 // 加载body-parser，用以处理post提交过来的数据
 var bodyParser = require('body-parser');
 
+var Cookies = require('cookies');
+
+//cookies save
+app.use(function (req, res, next) {
+    req.cookies = new Cookies(req, res);
+    // 解析cookie信息把它由字符串转化为对象
+    if (req.cookies.get('userInfo')) {
+        try {
+            req.userInfo = JSON.parse(req.cookies.get('userInfo'));;
+            // // 获取当前用户登录的类型，是否管理员
+            // User.findById(req.userInfo._id).then(function (userInfo) {
+            //     req.userInfo.isAdmin = Boolean(userInfo.isAdmin);
+            //     next();
+            // });
+        } catch (e) {
+            next();
+        }
+    }
+    next();
+});
+
 //引入静态文件
 // 当遇到public文件下的文件，都调用第二个参数里的方法(注意是两个下划线)。
 // 当用户访问的url以public开始，那么直接返回对应__dirname+'public'下的文件。因此我们的css应该放到public下。
@@ -16,7 +37,7 @@ app.use('/public', express.static(__dirname + '/public'));
 
 
 // bodyParser设置
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // 根据功能划分路由（routers）
 app.use('/admin', require('./routers/admin'));

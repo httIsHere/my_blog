@@ -14,10 +14,22 @@
 	<body>
 		<div class="head-nav">
 			<a class="nav-title">TTBLOG</a>
-			<a class="nav-content">TTBLOG</a>
-			<a class="nav-content">TTBLOG</a>
-			<a class="nav-content">TTBLOG</a>
+			<a class="nav-content" href="index.html">首页</a>
+			<a class="nav-content" href="article.html">文章</a>
+			<a class="nav-content" href="portfolio.html">作品</a>
+			<a class="nav-content" href="about.html">关于</a>
+			{% if userInfo._id %} 
+			{% if userInfo.isAdmin %}
+			<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a> 
+			{% else %}
+			<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
+			{% endif %}
+			{% else %}
+			<a class="nav-content" id="loginInfo">未登录</a>
+			{% endif %}
+			<a class="nav-content" id="logout">退出</a>
 		</div>
+		{% if userInfo._id %} {% else %}
 		<div class="banner-wrap">
 			<div class="login" id="register">
 				<h3>注册</h3>
@@ -30,12 +42,13 @@
 
 			<div class="login" id="login" style="display:none;">
 				<h3>登录</h3>
-				<span>用户：<input type="text"/></span><br/>
-				<span>密码：<input type="text"/></span><br/>
-				<span><input type="button" value="提交"/></span>
+				<span>用户：<input name="username" type="text"/></span><br/>
+				<span>密码：<input name="password" type="text"/></span><br/>
+				<span><input class="submit" type="button" value="提交"/></span>
 				<span>没有账号？马上<a href="javascript:;">注册</a></span>
 			</div>
 		</div>
+		{% endif %}
 	</body>
 	<script type="text/javascript">
 		// 登录注册的切换
@@ -49,6 +62,7 @@
 			$('#register').show();
 		});
 
+		//注册
 		$('#register .submit').click(function() {
 			// 通过ajax提交交
 			$.ajax({
@@ -66,6 +80,38 @@
 						// 注册成功
 						$('#register').hide();
 						$('#login').show();
+					}
+				}
+			});
+		});
+		// 点击登录按钮，通过ajax提交数据
+		$('#login .submit').click(function() {
+			// 通过ajax提交
+			$.ajax({
+				type: 'post',
+				url: '/api/user/login',
+				data: {
+					username: $('#login').find('[name="username"]').val(),
+					password: $('#login').find('[name="password"]').val(),
+				},
+				dataType: 'json',
+				success: function(data) {
+					alert(data.message);
+					if(!data.code) {
+						$('#login').slideUp(1000, function() {
+							$('#loginInfo').text(data.userInfo);
+						});
+					}
+				}
+			});
+		});
+		$('#logout').click(function() {
+			$.ajax({
+				type: 'get',
+				url: '/api/user/logout',
+				success: function(data) {
+					if(!data.code) {
+						window.location.reload();
 					}
 				}
 			});
