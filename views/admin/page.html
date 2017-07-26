@@ -1,0 +1,14 @@
+<p class="table-info">一共有{{count}}个，每页显示{{limit}}个。</p>
+
+<ul class="page-btn">
+    {% if Number(page)-1!==0 %}
+    <li><a href="/admin/user?page={{Number(page)-1}}">上一页</a></li>
+    {% else %}
+    <li>再往前..没有了</li>
+    {% endif %}
+    {% if Number(page)+1<=pages %}
+    <li><a href="/admin/{{type}}?page={{Number(page)+1}}">下一页</a></li>
+    {% else %}
+    <li>已是最后一页</li>
+    {% endif %}
+</ul>

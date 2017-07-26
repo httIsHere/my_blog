@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}} {% block main %}
+<div class="main" style="padding: 0;">
+	<div class="main-content">
+		<div class="container-fluid">
+			<div class="row">
+				<h4><a href="/admin/category">分类管理</a><small>&nbsp;&nbsp;>&nbsp;&nbsp;编辑分类</small></h4>
+				<label>分类名</label><br/>
+				<form method="post" style="display: flex;justify-content: flex-start;align-items: center;">
+					<input type="text" name="edit_cateName" class="form-control" style="width: 50%; display: inline-block;" value="{{category.name}}" />
+					<input type="submit" value="修改" class="btn btn-primary" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

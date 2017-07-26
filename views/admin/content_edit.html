@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}} {% block main %}
+<style type="text/css">
+	textarea {
+		resize: none;
+		width: 100%;
+		overflow-y: scroll;
+	}
+	
+	.content-head {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	
+	.content-head .form-control {
+		width: 30%;
+	}
+	
+	.content-head>* {
+		margin-right: 15px;
+	}
+</style>
+<div class="main" style="padding: 0;">
+	<div class="main-content">
+		<div class="container-fluid">
+			<div class="row">
+				<h4><a href="/admin/content">文章管理</a><small>&nbsp;&nbsp;>&nbsp;&nbsp;文章修改</small></h4>
+				<form method="post">
+					<div class="content-head">
+						<span>标题</span>
+						<input type="text" name="title" class="form-control" value="{{data.title}}" />
+						<span>分类</span>
+						<select name="categories" class="form-control">
+							<!--<option value="{{data.category._id.toString()}}" checked>{{data.category.name}}</option>-->
+							{% for category in categories %}
+							<option value="{{category._id.toString()}}">{{category.name}}</option>
+							{% endfor %}
+						</select>
+						<button type="submit" class="btn btn-primary">发布</button><br>
+					</div>
+					<span style="line-height: 30px;">内容摘要</span><br>
+					<textarea id="description" class="form-control" rows="3" name="description">{{data.description}}</textarea>
+					<br>
+					<span style="line-height: 20px;">文章正文</span><br>
+					<textarea id="article-content" class="form-control" rows="20" name="content">{{data.content}}</textarea>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

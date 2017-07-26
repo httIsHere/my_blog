@@ -14,21 +14,32 @@
 	<body>
 		<div class="head-nav">
 			<a class="nav-title">TTBLOG</a>
-			<a class="nav-content" href="index.html">首页</a>
-			<a class="nav-content" href="article.html">文章</a>
+			<a class="nav-content" href="/">首页</a>
+			<a class="nav-content" href="/article">文章</a>
 			<a class="nav-content" href="portfolio.html">作品</a>
 			<a class="nav-content" href="about.html">关于</a>
-			{% if userInfo._id %} 
-			{% if userInfo.isAdmin %}
-			<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a> 
+			{% if userInfo._id %} {% if userInfo.isAdmin %}
+			<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a>
 			{% else %}
 			<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
-			{% endif %}
-			{% else %}
+			{% endif %} {% else %}
 			<a class="nav-content" id="loginInfo">未登录</a>
 			{% endif %}
 			<a class="nav-content" id="logout">退出</a>
 		</div>
+		<!--<div class="nav-ul">
+			<ul class="nav-article">
+				{% if !userInfo._id %}
+				<li>
+					<a href="javascript:;">仅限注册用户查看！</a>
+				</li>
+				{% else %} {% for category in categories %}
+				<li>
+					<a href="javascript:;">{{category.name}}</a>
+				</li>
+				{% endfor %} {% endif %}
+			</ul>
+		</div>-->
 		{% if userInfo._id %} {% else %}
 		<div class="banner-wrap">
 			<div class="login" id="register">

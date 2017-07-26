@@ -19,11 +19,23 @@ body{
 	padding: 0 15px 0 15px;
 	border-bottom: 2px solid #ddd;
 }
-.head-nav a{
+.head-nav ul, .head-nav a, .nav-ul a{
 	margin-right: 15px;
 	color: #000;
 	text-decoration: none;
 }
-#loginInfo{
-	
+.nav-ul{
+	width: auto;
+	height: 40px;
+	padding: 0 15px 0 15px;
+	background: #F0F0F0;
+}
+.nav-ul li{
+	list-style: none;
+}
+.nav-article{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 100%;
 }
