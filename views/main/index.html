@@ -7,39 +7,38 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--<link rel="stylesheet" href="../../public/vendor/bootstrap/css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="../../public/vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../../public/css/calendar.css"/>
 		<link rel="stylesheet" type="text/css" href="../public/css/index.css" />
 		<script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="../../public/js/jquery.dotdotdot.js"></script>
+		<script type="text/javascript" src="../../public/js/calendar.js"></script>
+	<!--<script src="../../public/vendor/bootstrap/js/bootstrap.min.js"></script>-->
 	</head>
 
 	<body>
 		<div class="head-nav">
-			<a class="nav-title">TTBLOG</a>
-			<a class="nav-content" href="/">首页</a>
-			<a class="nav-content" href="/article">文章</a>
-			<a class="nav-content" href="portfolio.html">作品</a>
-			<a class="nav-content" href="about.html">关于</a>
-			{% if userInfo._id %} {% if userInfo.isAdmin %}
-			<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a>
-			{% else %}
-			<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
-			{% endif %} {% else %}
-			<a class="nav-content" id="loginInfo">未登录</a>
-			{% endif %}
-			<a class="nav-content" id="logout">退出</a>
+			<div class="head-content">
+				<div class="head-content-left">
+					<a class="nav-title" style="color: #88c1bc;"><strong>TTBLOG</strong></a>
+					<a class="nav-content" href="/">首页</a>
+					<a class="nav-content" href="/article">文章</a>
+					<a class="nav-content" href="portfolio.html">作品</a>
+					<a class="nav-content" href="about.html">关于</a>
+				</div>
+				<div class="head-content-right">
+					{% if userInfo._id %} {% if userInfo.isAdmin %}
+					<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a>
+					{% else %}
+					<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
+					{% endif %} {% else %}
+					<a class="nav-content" id="loginInfo">未登录</a>
+					{% endif %}
+					<a class="nav-content" id="logout">退出</a>
+				</div>
+			</div>
 		</div>
-		<!--<div class="nav-ul">
-			<ul class="nav-article">
-				{% if !userInfo._id %}
-				<li>
-					<a href="javascript:;">仅限注册用户查看！</a>
-				</li>
-				{% else %} {% for category in categories %}
-				<li>
-					<a href="javascript:;">{{category.name}}</a>
-				</li>
-				{% endfor %} {% endif %}
-			</ul>
-		</div>-->
 		{% if userInfo._id %} {% else %}
 		<div class="banner-wrap">
 			<div class="login" id="register">
@@ -60,6 +59,10 @@
 			</div>
 		</div>
 		{% endif %}
+
+		<div class="main">
+			{% block main %}{% endblock %}
+		</div>
 	</body>
 	<script type="text/javascript">
 		// 登录注册的切换

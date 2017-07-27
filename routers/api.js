@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 // 请求模型中的User.js。
 var User = require('../models/User');
+var Content = require('../models/Contents');
 
 // 统一返回格式
 var responseData = null;
@@ -118,5 +119,33 @@ router.get('/user/logout', function (req, res) {
     res.json(responseData);
     return;
 });
+// 评论提交
+router.post('/comment/post', function (req, res, next) {
+    // 文章的id是需要前端提交的。
+    var contentId = req.body.contentId || '';
+    if (req.body.content === '') {
+        responseData.message = '评论不可为空';
+        res.json(responseData);
+    }
+    else {
+        var postData = {
+            username: req.userInfo.username,
+            postTime: new Date().toLocaleString(),
+            content: req.body.content
+        };
+        // console.log(postData);
+        // 查询当前内容信息
+        Content.findOne({
+            _id: contentId
+        }).then(function (content) {
+            content.comments.push(postData);
+            return content.save()
+        }).then(function (newContent) {//最新的内容在newContent！
+            responseData.message = '评论成功';
+            res.json(responseData);
+        })
+    }
 
+
+});
 module.exports = router;//把router的结果作为模块的输出返回出去！

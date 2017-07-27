@@ -1,0 +1,140 @@
+ol,
+li {
+	list-style: none;
+}
+
+.container-fluid,
+.container-left>* {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.container-left {
+	width: 850px;
+	align-self: flex-start;
+}
+
+.imageShow>* {
+	background: #003087;
+	height: 300px;
+}
+
+.nav-content:nth-child(3) {
+	font-weight: bold;
+}
+
+.news {
+	padding: 10px 15px 10px 15px;
+	margin: 10px 0 10px 0;
+	background: #FFF;
+	height: 24px;
+}
+
+.blog-article {
+	margin-top: 10px;
+}
+
+.blog-content {
+	border-bottom: 1px solid #F0F0F0;
+	background: #FFF;
+	height: 144px;
+	padding: 30px 0;
+	width: 850px;
+}
+
+.blog-content dt {
+	width: 150px;
+	padding: 0 20px;
+	float: left;
+	height: 131px;
+	border-right: 1px solid #F0F0F0;
+	text-align: center;
+}
+
+.blog-content dt img {
+	width: 70px;
+	height: 70px;
+	border-radius: 35px;
+	display: block;
+	margin: 20px auto;
+}
+
+.blog-content dd {
+	margin-left: 200px;
+	padding: 0 20px;
+	height: 144px;
+}
+
+.blog-content dd h3 {
+	line-height: 24px;
+	padding-bottom: 10px;
+}
+
+.blog-desp {
+	font-size: 14px;
+	color: #888;
+	max-height: 50px;
+}
+
+.blog-info {
+	font-size: 14px;
+	color: #555;
+	padding-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.container-right {
+	width: 320px;
+	align-self: flex-start;
+}
+
+.container-right>* {
+	background: #FFF;
+	margin-bottom: 10px;
+	padding: 0 20px;
+}
+
+.blog-search {
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.blog-search input[type=text] {
+	width: 220px;
+	height: 30px;
+	padding-left: 10px;
+	border: 2px solid #88c1bc;
+}
+
+.blog-search button[type=submit] {
+	width: 60px;
+	height: 34px;
+	border: 2px solid #88c1bc;
+	background: #88c1bc;
+	color: #FFF;
+}
+
+.blog-calender,
+.blog-category {
+	padding: 0;
+}
+
+.blog-category ul {
+	padding: 0 20px;
+	border-left: 5px solid #88C1BC;
+}
+
+.blog-category li {
+	border-top: 1px dashed #A3A3A3;
+	height: 40px;
+	line-height: 40px;
+}
+
+.blog-category li:nth-child(1) {
+	border: 0;
+}

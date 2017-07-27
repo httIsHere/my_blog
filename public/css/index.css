@@ -6,18 +6,28 @@ h1{
 	text-align: center;
 }
 body{
-	background: #fafafa;
+	background: #f0f0f0;
+}
+a{
+	text-decoration: none;
+	color: #000000;
 }
 /*nav bar*/
 .head-nav{
-	background: #fffff;
+	background: #FFF;
 	width: 100%;
 	height: 40px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	padding: 0 15px 0 15px;
 	border-bottom: 2px solid #ddd;
+}
+.head-content{
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 1170px;
 }
 .head-nav ul, .head-nav a, .nav-ul a{
 	margin-right: 15px;

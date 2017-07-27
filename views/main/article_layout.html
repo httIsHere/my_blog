@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Main Page</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--<link rel="stylesheet" href="../../public/vendor/bootstrap/css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="../../public/vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../../public/css/calendar.css"/>
+		<link rel="stylesheet" type="text/css" href="../public/css/index.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/css/article.css"/>
+		<link rel="stylesheet" type="text/css" href="../../public/css/article_view.css"/>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+		<script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="../../public/js/jquery.dotdotdot.js"></script>
+		<script type="text/javascript" src="../../public/js/calendar.js"></script>
+		<script src="../../public/js/article_view.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/js/marked.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="head-nav">
+			<div class="head-content">
+				<div class="head-content-left">
+					<a class="nav-title" style="color: #88c1bc;"><strong>TTBLOG</strong></a>
+					<a class="nav-content" href="/">首页</a>
+					<a class="nav-content" href="/article">文章</a>
+					<a class="nav-content" href="portfolio.html">作品</a>
+					<a class="nav-content" href="about.html">关于</a>
+				</div>
+				<div class="head-content-right">
+					{% if userInfo._id %} {% if userInfo.isAdmin %}
+					<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a>
+					{% else %}
+					<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
+					{% endif %} {% else %}
+					<a class="nav-content" id="loginInfo">未登录</a>
+					{% endif %}
+					<a class="nav-content" id="logout">退出</a>
+				</div>
+			</div>
+		</div>
+<div class="main">
+	<div class="main-content">
+		<div class="container-fluid" style="width: 1190px; margin: 30px auto;">
+			<div class="container-left">
+				{% block main %}{% endblock %}
+			</div>
+			<div class="container-right">
+				<div class="blog-search">
+					<input type="text" name="blog-search" id="blog-search" placeholder="搜索"/>
+					<button type="submit" name="search-btn" id="search-btn">GO</button>
+				</div>
+				<div class="blog-calender">
+					<div id="calender"></div>
+				</div>
+				<div class="blog-category">
+					<ul>
+						{% for category in categories %}
+						<li><a href="/article?category={{category._id.toString()}}">{{category.name}}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(".blog-desp").dotdotdot({});
+$('#calender').calendar({
+	width: 320,
+	height: 320
+});
+$('#commentBtn').click(function(){
+	$.ajax({
+		type:"post",
+		url:"/api/comment/post",
+		data:{
+                contentId:$('#contentId').val(),
+                content:$('#comment').val(),
+            },
+        success:function(responseData){
+                alert(responseData.message);
+                location.reload();
+            }
+	});
+});
+hljs.initHighlightingOnLoad();
+//$.ajax({
+//	type:"get",
+//	url:"/view/",
+//	data:{
+//          contentId:$('#contentId').val()
+//      },
+//  success:function(data){
+//          var a = data.content;
+//			console.log(a._id);
+//          var rendererMD = new marked.Renderer();
+//          marked.setOptions({
+//              renderer: rendererMD,
+//              gfm: true,
+//              tables: true,
+//              breaks: false,
+//              pedantic: false,
+//              sanitize: false,
+//              smartLists: true,
+//              smartypants: false
+//          });
+//          marked.setOptions({
+//              highlight: function (code,a,c) {
+//              	console.log(hljs.highlightAuto(code).value);
+//                  return hljs.highlightAuto(code).value;
+//              }
+//          });
+//      }
+//	
+//});
+</script>
+</body>
+</html>

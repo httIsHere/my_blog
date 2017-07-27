@@ -1,10 +1,31 @@
-{% extends 'index.html' %}} {% block main %}
-<div class="main" style="padding: 0;">
-	<div class="main-content">
-		<div class="container-fluid">
-			<div class="row">
+{% extends 'article_layout.html' %} {% block main %}
+<div class="imageShow">
+	<div class="imageShow1" style="width: 500px;"></div>
+	<div class="imageShow2" style="width: 340px;"></div>
+</div>
+<div class="news">
+	<a href="">>>经典解析</a>
+	<a href="">>>拯救你的盲区</a>
+</div>
+<div class="blog-article" style="display: block;">
+	{% for content in contents %}
+	<dl class="blog-content">
+		<dt>
+			<a href=""><img src="http://avatar.csdn.net/A/A/1/1_linglian0522.jpg"/></a>
+			<a href="" class="nickname">{{content.user.username}}</a>
+		</dt>
+		<dd>
+			<h3><a href="/view?contentId={{content._id.toString()}}">{{content.title}}</a></h3>
+			<div class="blog-desp dot-ellipsis">{{content.description}}</div>
+			<div class="blog-info">
+				<div class="blog-cate"><i class="fa fa-list-ul"></i> {{content.category.name}}</div>
+				<div class="blog-date">
+					<span style="margin-right: 10px;">{{content.date}}</span>
+					<span><i class="fa fa-eye"></i> {{content.views}}</span>
+				</div>
 			</div>
-		</div>
-	</div>
+		</dd>
+	</dl>
+	{% endfor %} {% include 'page.html' %}
 </div>
 {% endblock %}

@@ -1,0 +1,35 @@
+<style type="text/css">
+	li {
+		margin-left: 10px;
+		list-style: none;
+	}
+</style>
+<p class="table-info">一共有{{count}}个，每页显示{{limit}}个</p>
+
+<ul class="page-btn" style="display: flex;justify-content: flex-end;align-items: center;">
+	{% if pages>0 %}
+	<li>
+		<a href="/article?category={{category.toString()}}&page=1">首页</a>
+	</li>
+	{% if page-1!==0 %}
+	<li>
+		<a href="/article?category={{category.toString()}}&page={{page-1}}">上一页</a>
+	</li>
+	{% endif %}
+
+	<li style="background:#88C1BC;padding: 0 10px;">
+		<a style="color:#fff;" href="javascript:;">{{page}}/{{pages}}</a>
+	</li>
+
+	{% if page+1<=pages %} 
+		<li>
+		<a href="/article?category={{category.toString()}}&page={{page+1}}">下一页</a>
+		</li>
+		{% endif %}
+		<li>
+			<a href="/article?category={{category.toString()}}&page={{pages}}">末页</a>
+		</li>
+		{% else %}
+		<li style="width: 100%;text-align: center;">当前分类没有任何文章！</li>
+	{% endif %}
+</ul>
