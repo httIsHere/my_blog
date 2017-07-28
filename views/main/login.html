@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<!--<link rel="stylesheet" href="loginStyle.css">-->
+	<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../public/css/new-signin.css"/>
+	<link rel="stylesheet" type="text/css" href="../../public/css/swiper.min.css"/>
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../../public/js/swiper.min.js"></script>
+	<title>Sign in</title>
+</head>
+<body class="sign_in">
+<div class="login">
+		<!--<form class="signin form-horizontal" id="login" action="/user/login" method="post">-->
+			<div id="title">TTBLOG</div>
+			<div id="little-title">博客平台</div>
+			<div class="form-margin">
+				<i class="fa fa-envelope fa-lg"></i>
+				<input class="form-control eamil" type="text" placeholder="用户名" required autofocus name="username"/>
+			</div>
+			<div class="form-margin">
+				<i class="fa fa-lock fa-lg"></i>
+				<input class="form-control required" type="password" placeholder="密码" required  name="password"/>
+			</div>
+			<div class="form-margin">
+				<button class="btn btn-login" type="submit" class="submit">登录</button>
+			</div>
+		<!--</form>-->
+		<div class="signup">
+		<a id="signUp" href = "/signup">注册</a>
+		</div>
+</div>
+<!-- BG Swiper -->
+<div class="swiper-container">
+	<div class="swiper-wrapper">
+		<div class="swiper-slide" style="background: url(../../public/images/bg.jpeg);background-size: 100% 100%;"></div>
+		<!--<div class="swiper-slide" style="background: url(http://s4.sinaimg.cn/mw690/004fI5vbgy6KIHvG7mjc3);background-size: 100% 100%;"></div>-->
+		<!--<div class="swiper-slide" style="background: url(http://img3.duitang.com/uploads/item/201606/20/20160620202651_cwHdk.thumb.700_0.jpeg);background-size: 100% 100%;"></div>-->
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+        //背景轮播
+        var swiper = new Swiper('.swiper-container', {
+	    autoplay: 2500
+    	});
+		// 点击登录按钮，通过ajax提交数据
+		$('button').click(function() {
+			// 通过ajax提交
+			$.ajax({
+				type: 'post',
+				url: '/api/user/login',
+				data: {
+					username: $('.login').find('[name="username"]').val(),
+					password: $('.login').find('[name="password"]').val(),
+				},
+				dataType: 'json',
+				success: function(data) {
+					alert(data.message);
+					if(data.code == 0) {
+						location.href="/";
+					}
+				}
+			});
+		});
+</script>
+</html>

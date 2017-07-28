@@ -13,5 +13,21 @@ module.exports = new mongoose.Schema({
     isAdmin:{
         type:Boolean,
         default:false
+    },
+    headimg: {
+        type:String,
+        default:'http://upload.jianshu.io/users/upload_avatars/6080416/5c0f8fde-fbfe-424c-9b75-2dd20a3d8aa5.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'
+    },
+    focus:{
+        type: Array,
+        default: []
+    },
+    fans:{
+        type: Array,
+        default: []
+    },
+    like:{
+        type: Array,
+        default: []
     }
 });

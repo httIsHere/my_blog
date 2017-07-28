@@ -1,0 +1,15 @@
+{% extends 'nav-bar.html'%} {% block main%}
+<div class="my-view">
+	<div class="my-view-left">
+		<div class="userInfo">
+			<img src="{{userInfo.headimg}}" />
+			<div id="user-detail" style="display: inline-block;">
+				<div>{{userInfo.username}}</div>
+				<div>
+					<span>关注-{{userInfo.focus.length}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

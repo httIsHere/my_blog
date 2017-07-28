@@ -64,3 +64,20 @@
 .comments-info span:nth-child(1){
 	color: #88C1BC;
 }
+code{
+	background: rgba(0,0,0,0.8);
+	padding: 10px;
+	display: block;
+	color: #FFF;
+	border-radius: 5px;
+	margin: 10px 0;
+}
+.article-content li{
+	list-style: square inside;
+}
+.article-content a{
+	color: #88C1BC;
+}
+.article-content p{
+	margin: 5px 0;
+}

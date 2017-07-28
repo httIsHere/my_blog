@@ -138,3 +138,14 @@ li {
 .blog-category li:nth-child(1) {
 	border: 0;
 }
+.blog-write-btn{
+	background: #88C1BC;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+.blog-write-btn a{
+	display: block;
+	color: #FFF;
+	background: #88C1BC;
+}

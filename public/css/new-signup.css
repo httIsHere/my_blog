@@ -1,0 +1,61 @@
+    html,
+    body {
+    	position: relative;
+    	height: 100%;
+    }
+    body {
+    	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    	font-size: 14px;
+    	color: #000;
+    	margin: 0;
+    	padding: 0;
+    	background: url(../images/bg0.jpg) no-repeat;
+    	background-size: 100% 100%;
+    	color: #FFFFFF;
+    }
+    .register{
+    	color: #FFFFFF;
+    	position: absolute;
+    	z-index: 100;
+    	width: 30%;
+    	top: 25%;
+    	left: 35%;
+    	text-align: center;
+    	margin: 0;
+    }
+    .form-margin input::-moz-placeholder {
+    	color: #FFF;
+    }
+    
+    .form-margin input:-ms-input-placeholder {
+    	color: #FFF;
+    }
+    
+    .form-margin input::-webkit-input-placeholder {
+    	color: #FFF;
+    }
+    .form-margin {
+    	margin-top: 15px;
+    	display: flex;
+    	justify-content: space-between;
+    	align-items: center;
+    }
+    
+    .form-margin input {
+    	width: 90%;
+    	background: rgba(0, 0, 0, 0);
+    	border: 1px solid #FFFFFF;
+    	color: #FFFFFF;
+    }
+    .register-main{
+    	color: #FFFFFF;
+    }
+    .btn-login {
+    	width: 100%;
+    	background: rgba(255, 255, 255, 0.3);
+    	border: 1px solid #FFFFFF;
+    }
+    
+    .btn-login:hover {
+    	background: rgba(255, 255, 255, 0.5);
+    }

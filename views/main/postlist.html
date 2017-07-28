@@ -1,0 +1,78 @@
+{% extends 'nav-bar.html'%} {% block main%}
+<div class="postlist-view">
+	<div class="userInfo">
+		<img src="{{userInfo.headimg}}"/>
+		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
+		<span><a href="/myArticles" style="color: #88C1BC;">{{userInfo.username}}的博客</a></span>
+	</div>
+	<div class="func-btn">
+		<div class="list-bar">
+			<div class="list-bar-content content-active">
+				<a href="/postlist">文章列表</a>
+			</div>
+			<div class="list-bar-content">
+				<a href="/postlist">评论管理</a>
+			</div>
+			<div class="list-bar-content">
+				<a href="/postlist">回收站</a>
+			</div>
+		</div>
+		<div class="write-new">
+			<a href="/postedit"><i class="fa fa-pencil fa-fw"></i> 写新文章</a>
+		</div>
+	</div>
+	<div class="postlist-table">
+		<table class="table table-bordered table-hover text-center" border="1" id="articleInfoTab">
+			<thead class="sceneNameText text-center" id="listTitle">
+				<th>标题</th>
+				<th>评论</th>
+				<th>阅读</th>
+				<th>发布</th>
+				<th>操作</th>
+			</thead>
+			<tbody>
+				{% for content in contents %}
+				<tr>
+					<td>
+						<a href="/view?contentId={{content._id.toString()}}">{{content.title}}</a>
+					</td>
+					<td>{{content.comments.length}}</td>
+					<td>{{content.views}}</td>
+					<td>{{content.date}}</td>
+					<td>
+						<a href="/edit">编辑</a> |
+						<a href="/delete">删除</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	$('#articleInfoTab').dataTable({
+		"sortable": false, //是否启用排序
+		"bLengthChange": true, //改变每页显示数据数量
+		"ordering": false,
+		"bAutoWidth": false,
+		"bProcessing": true,
+		"iDisplayLength": 10,
+		"oLanguage": {
+			"sLengthMenu": "每页显示 _MENU_ 篇文章",
+			"sZeroRecords": "抱歉， 没有找到相应文章",
+			"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 篇文章",
+			"sInfoEmpty": "没有文章数据",
+			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+			"sSearch": "搜索",
+			"oPaginate": {
+				"sFirst": "首页",
+				"sPrevious": "前一页",
+				"sNext": "后一页",
+				"sLast": "尾页"
+			},
+			"sZeroRecords": "<a href='/postedit'>无相应文章，点击添加新文章</a>",
+			"bStateSave": true //保存状态到cookie *************** 很重要
+		}
+	});
+</script>
+{% endblock %}

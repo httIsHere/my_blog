@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Main Page</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../../public/css/jquery.dataTables.min.css"/>
+		<link rel="stylesheet" href="../../public/vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../public/vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="../../public/css/calendar.css" />
+		<link rel="stylesheet" type="text/css" href="../public/css/index.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/css/postedit.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/css/table.css"/>
+		<script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
+		<script src="../../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../public/js/jquery.dotdotdot.js"></script>
+		<script type="text/javascript" src="../../public/js/calendar.js"></script>
+		<script src="../../public/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/js/jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="head-nav">
+			<div class="head-content">
+				<div class="head-content-left">
+					<a class="nav-title" style="color: #88c1bc;"><strong>TTBLOG</strong></a>
+					<a class="nav-content" href="/"><strong>首页</strong></a>
+					<a class="nav-content" href="/article">文章</a>
+					<a class="nav-content" href="portfolio.html">作品</a>
+					<a class="nav-content" href="/postlist">个人</a>
+				</div>
+				<div class="head-content-right">
+					{% if userInfo._id %} {% if userInfo.isAdmin %}
+					<a class="nav-content" id="admin" style="cursor:pointer;" href="../admin">管理员你好，进入管理</a>
+					{% else %}
+					<a class="nav-content" id="loginInfo">{{ userInfo.username }}</a>
+					{% endif %} {% else %}
+					<a class="nav-content" id="loginInfo" href="/login">登录</a>
+					{% endif %}
+					<a class="nav-content" id="logout">退出</a>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			{% block main %}{% endblock %}
+		</div>
+	</body>
+	<script type="text/javascript">
+		var swiper = new Swiper('.swiper-container', {
+			pagination: '.swiper-pagination',
+			nextButton: '.swiper-button-next',
+			prevButton: '.swiper-button-prev',
+			paginationClickable: true,
+			spaceBetween: 30,
+			centeredSlides: true,
+			autoplay: 2500,
+			autoplayDisableOnInteraction: false
+		});
+		$('#logout').click(function() {
+			$.ajax({
+				type: 'get',
+				url: '/api/user/logout',
+				success: function(data) {
+					if(!data.code) {
+						window.location.reload();
+					}
+				}
+			});
+		});
+	</script>
+
+</html>

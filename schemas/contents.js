@@ -39,6 +39,10 @@ module.exports = new mongoose.Schema({
     comments: {
         type: Array,
         default: []
+    },
+    //是否删除
+    isDelete: {
+        type: Boolean,
+        default: false
     }
-
 });

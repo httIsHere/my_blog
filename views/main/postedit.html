@@ -1,0 +1,26 @@
+{% extends 'nav-bar.html'%} {% block main%}
+<div class="postedit-view">
+	<div class="userInfo">
+		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
+		<span><a href="/myArticles" style="color: #88C1BC;">{{userInfo.username}}的博客</a></span>
+	</div>
+	<form method="post">
+		<div class="content-head">
+			<span>标题</span>
+			<input type="text" name="title" class="form-control" />
+			<span>分类</span>
+			<select name="categories" class="form-control">
+				{% for category in categories %}
+				<option value="{{category._id.toString()}}">{{category.name}}</option>
+				{% endfor %}
+			</select>
+			<button type="submit" class="btn" style="background: #88C1BC; color: #FFF;">发布</button><br>
+		</div>
+		<span style="line-height: 30px;">内容摘要</span><br>
+		<textarea id="description" class="form-control" rows="3" name="description"></textarea>
+		<br>
+		<span style="line-height: 20px;">文章正文</span><br>
+		<textarea id="article-content" class="form-control" rows="20" name="content"></textarea>
+	</form>
+</div>
+{% endblock %}

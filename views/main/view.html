@@ -9,11 +9,10 @@
 		<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
 	</div>
 	<div class="article-desp">{{content.description}}</div>
-	<div class="article-content" style="margin-top: 20px;">{{content.content}}</div>
+	<div class="article-content" style="margin-top: 20px;"></div>
 </div>
 <div class="article-comments">
 	<h3 style="margin-top: 0;">评论共{{content.comments.length}}条</h3>
-	<!--<form action="/api/comment/post" method="post">-->
 		<textarea name="content" rows="8" id="comment"></textarea>
 		{% if userInfo._id %}
 		<input type="submit" name="contentBtn" id="commentBtn" value="提交" />
@@ -21,7 +20,6 @@
 		{% else %}
 		<div class="commentTip">你还没有登录，点击登录</div>
 		{% endif %}
-	<!--</form>-->
 	<ul class="article-comments-list">
 		{% for comment in content.comments%}
 		<li>

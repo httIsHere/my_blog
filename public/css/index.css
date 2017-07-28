@@ -1,19 +1,25 @@
-*{
+* {
 	padding: 0;
 	margin: 0;
 }
-h1{
+
+h1 {
 	text-align: center;
 }
-body{
+
+body {
 	background: #f0f0f0;
 }
-a{
+
+a {
 	text-decoration: none;
 	color: #000000;
 }
+
+
 /*nav bar*/
-.head-nav{
+
+.head-nav {
 	background: #FFF;
 	width: 100%;
 	height: 40px;
@@ -22,30 +28,77 @@ a{
 	align-items: center;
 	border-bottom: 2px solid #ddd;
 }
-.head-content{
+
+.head-content {
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	width: 1170px;
 }
-.head-nav ul, .head-nav a, .nav-ul a{
+
+.head-nav ul,
+.head-nav a,
+.nav-ul a {
 	margin-right: 15px;
 	color: #000;
 	text-decoration: none;
 }
-.nav-ul{
+
+.nav-ul {
 	width: auto;
 	height: 40px;
 	padding: 0 15px 0 15px;
 	background: #F0F0F0;
 }
-.nav-ul li{
+
+.nav-ul li {
 	list-style: none;
 }
-.nav-article{
+
+.nav-article {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	height: 100%;
+}
+
+.main-view {
+	width: 1190px;
+	padding: 0 20px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.main-view-left{
+	width: 850px;
+}
+.main-view-right{
+	width: 320px;
+}
+.swiper-container {
+	width: 850px;
+	height: 300px;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+..main-view-right > *{
+	background: #FFF;
 }
