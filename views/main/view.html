@@ -9,7 +9,7 @@
 		<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
 	</div>
 	<div class="article-desp">{{content.description}}</div>
-	<div class="article-content" style="margin-top: 20px;"></div>
+	<div class="article-content" style="margin-top: 20px;">{{content.content}}</div>
 </div>
 <div class="article-comments">
 	<h3 style="margin-top: 0;">评论共{{content.comments.length}}条</h3>
@@ -18,7 +18,7 @@
 		<input type="submit" name="contentBtn" id="commentBtn" value="提交" />
 		<input type="hidden" name="contentId" id="contentId" value="{{content._id.toString()}}" />
 		{% else %}
-		<div class="commentTip">你还没有登录，点击登录</div>
+		<div class="commentTip"><a href="/login" style="color:#88C1BC">你还没有登录，点击登录</a></div>
 		{% endif %}
 	<ul class="article-comments-list">
 		{% for comment in content.comments%}

@@ -18,7 +18,9 @@ a {
 
 
 /*nav bar*/
-
+.active-bar{
+	font-weight: bold;
+}
 .head-nav {
 	background: #FFF;
 	width: 100%;

@@ -1,14 +1,13 @@
 {% extends 'nav-bar.html'%} {% block main%}
-{% if userInfo._id %}
 <div class="my-view">
 	<div class="my-view-left">
 		<div class="userInfo">
-			<img src="{{userInfo.headimg}}" />
+			<img src="{{hisInfo.headimg}}" />
 			<div>
-				<h3>{{userInfo.username}}</h3></div>
+				<h3>{{hisInfo.username}}</h3></div>
 			<div style="width: 500px;">
-				<span style="margin-right: 25px;">关注 - {{userInfo.focus.length}}</span>|
-				<span style="margin-right: 25px;">粉丝 - {{userInfo.fans.length}}</span>|
+				<span style="margin-right: 25px;">关注 - {{hisInfo.focus.length}}</span>|
+				<span style="margin-right: 25px;">粉丝 - {{hisInfo.fans.length}}</span>|
 				<span style="margin-right: 25px;">文章 - {{contents.length}}</span>
 			</div>
 		</div>
@@ -19,8 +18,8 @@
 				<li>
 					<div class="postDetail">
 						<div class="user">
-							<img src="{{userInfo.headimg}}" />
-							<span>{{userInfo.username}}</span>
+							<img src="{{hisInfo.headimg}}" />
+							<span>{{hisInfo.username}}</span>
 							<span style="color: #888; font-size: 14px;">{{content.date}}</span>
 						</div>
 						<div class="articleTitle"><a href="/view?contentId={{content._id.toString()}}"><h4>{{content.title}}</h4></a></div>
@@ -42,7 +41,7 @@
 			<li>
 				<i class="fa fa-address-card"></i>
 				<span>个人介绍</span>
-				<p>{{userInfo.introduction}}</p>
+				<p>{{hisInfo.introduction}}</p>
 			</li>
 			<li>
 				<i class="fa fa-eye"></i>
@@ -71,14 +70,4 @@
 		</ul>
 	</div>
 </div>
-{% else %}
-<script type="text/javascript">
-	location.href = '/login';
-</script>
-{% endif %}
-<script type="text/javascript">
-	$(".articleDesp").dotdotdot();
-	$('.nav-content').removeClass('active-bar');
-	$('.nav-content').eq(3).addClass('active-bar');
-</script>
 {% endblock %}

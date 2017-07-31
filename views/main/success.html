@@ -1,7 +1,15 @@
-{% extends 'nav-bar.html' %}}
-
-{% block main %}
-<h3>成功了</h3>
-<h4>{{message}}</h4>
-<a href={{operation.url}}>{{operation.operation}}</a>
+{% extends 'nav-bar.html' %}} {% block main %}
+<script type="text/javascript">
+	swal({
+		title: "成功",
+		text: "{{message}}",
+		type: "success",
+		confirmButtonColor: "#88C1BC",
+		confirmButtonText: "{{operation.operation}}",
+		closeOnConfirm: false
+	},
+	function(){
+		location.href = "{{operation.url}}";
+	});
+</script>
 {% endblock %}

@@ -11,8 +11,8 @@
 	{% for content in contents %}
 	<dl class="blog-content">
 		<dt>
-			<a href=""><img src="http://avatar.csdn.net/A/A/1/1_linglian0522.jpg"/></a>
-			<a href="" class="nickname">{{content.user.username}}</a>
+			<a href="/lookHim?id={{content.user._id.toString()}}"><img src="http://avatar.csdn.net/A/A/1/1_linglian0522.jpg"/></a>
+			<a href="/lookHim?id={{content.user._id.toString()}}" class="nickname">{{content.user.username}}</a>
 		</dt>
 		<dd>
 			<h3><a href="/view?contentId={{content._id.toString()}}">{{content.title}}</a></h3>

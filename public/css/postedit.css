@@ -89,9 +89,50 @@ table, th, td{
 	display: block;
 	text-decoration: none;
 }
+.my-view{
+	width: 850px;
+	display: flex;
+	justify-content: space-between;
+	background: #FFF;
+}
 .my-view-left{
+	width: 500px;
+}
+.userInfo{
+	height: 80px;
+}
+.userInfo img{
 	float: left;
 }
-#user-detail{
-	height: 80px;
+li{
+	list-style: none;
+}
+.user img{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+}
+.articleDesp{
+	height: 50px;
+	/*margin-bottom: -30px;*/
+}
+.articleDesp p, .lookInfo span{
+	font-size: 14px;
+	color: #888;
+}
+.my-view-right{
+	width: 280px;
+	border-left: 1px solid #88C1BC;
+	padding-left: 20px;
+}
+.my-view-right >ul >li{
+	margin-bottom: 15px;
+}
+.mid-ul li{
+	font-size: 14px;
+	color: #888888;
+	margin: 5px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }

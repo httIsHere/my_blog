@@ -298,7 +298,7 @@ router.get('/category/delete', function (req, res) {
 //文章管理
 // 内容管理
 var Content = require('../models/Contents');
-renderAdminTable(Content, 'content', 5, ['category','user']);
+renderAdminTable(Content, 'content', 5, ['category', 'user']);
 
 // 添加文章
 router.get('/content/add', function (req, res, next) {
@@ -353,7 +353,7 @@ router.post('/content/add', function (req, res, next) {
         description: req.body.description,
         content: req.body.content,
         date: new Date().toLocaleString(),
-        user:req.userInfo._id
+        user: req.userInfo._id
     }).save().then(function () {
         res.render('admin/success', {
             userInfo: req.userInfo,
@@ -428,11 +428,17 @@ router.post('/content/edit', function (req, res, next) {
         });
     });
 });
+//delete my article
 router.get('/content/delete', function (req, res, next) {
     var id = req.query.id || '';
-
-    Content.remove({
+    Content.findOne({
         _id: id
+    }).then(function () {
+        return Content.update({
+            _id: id
+        }, {
+                isDelete: true
+            });
     }).then(function () {
         res.render('admin/success', {
             userInfo: req.userInfo,
@@ -442,6 +448,6 @@ router.get('/content/delete', function (req, res, next) {
                 operation: '返回分类管理'
             }
         });
-    });
+    })
 });
 module.exports = router;//把router的结果作为模块的输出返回出去！

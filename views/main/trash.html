@@ -1,5 +1,4 @@
 {% extends 'nav-bar.html'%} {% block main%}
-{% if userInfo._id %}
 <div class="postlist-view">
 	<div class="userInfo">
 		<img src="{{userInfo.headimg}}"/>
@@ -8,13 +7,13 @@
 	</div>
 	<div class="func-btn">
 		<div class="list-bar">
-			<div class="list-bar-content content-active">
+			<div class="list-bar-content">
 				<a href="/postlist">文章列表</a>
 			</div>
 			<div class="list-bar-content">
 				<a href="/postlist">评论管理</a>
 			</div>
-			<div class="list-bar-content">
+			<div class="list-bar-content content-active">
 				<a href="/trash">回收站</a>
 			</div>
 		</div>
@@ -41,8 +40,8 @@
 					<td>{{content.views}}</td>
 					<td>{{content.date}}</td>
 					<td>
-						<a href="/edit?id={{content._id.toString()}}">编辑</a> |
-						<a href="/delete?id={{content._id.toString()}}">删除</a>
+						<a href="/realDelete?id={{content._id.toString()}}">彻底删除</a> |
+						<a href="/recover?id={{content._id.toString()}}">恢复</a>
 					</td>
 				</tr>
 				{% endfor %}
@@ -50,11 +49,6 @@
 		</table>
 	</div>
 </div>
-{% else %}
-<script type="text/javascript">
-	location.href = '/login';
-</script>
-{% endif %}
 <script type="text/javascript">
 	$('.nav-content').removeClass('active-bar');
 	$('.nav-content').eq(3).addClass('active-bar');
@@ -78,7 +72,7 @@
 				"sNext": "后一页",
 				"sLast": "尾页"
 			},
-			"sZeroRecords": "<a href='/postedit'>无相应文章，点击添加新文章</a>",
+			"sZeroRecords": "无相应文章",
 			"bStateSave": true //保存状态到cookie *************** 很重要
 		}
 	});

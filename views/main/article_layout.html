@@ -14,6 +14,8 @@
 		<link rel="stylesheet" type="text/css" href="../../public/css/article.css" />
 		<link rel="stylesheet" type="text/css" href="../../public/css/article_view.css" />
 		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+		<link rel="stylesheet" type="text/css" href="../../public/css/sweetalert.css" />
+
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 		<script type="text/javascript" src="../public/js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="../../public/js/jquery.dotdotdot.js"></script>
@@ -22,6 +24,7 @@
 		<script src="../../public/js/marked.min.js" type="text/javascript" charset="utf-8"></script>
 		<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
 		<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+		<script src="../../public/js/sweetalert-dev.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			hljs.initHighlightingOnLoad();
 		</script>
@@ -68,6 +71,9 @@
 						</div>
 						<div class="blog-category">
 							<ul>
+								<li>
+									<a href="/article">全部文章</a>
+								</li>
 								{% for category in categories %}
 								<li>
 									<a href="/article?category={{category._id.toString()}}">{{category.name}}</a>
@@ -105,8 +111,17 @@
 						content: $('#comment').val(),
 					},
 					success: function(responseData) {
-						alert(responseData.message);
-						location.reload();
+						swal({
+								title: "",
+								text: "评论成功",
+								type: "success",
+								confirmButtonColor: "#88C1BC",
+								confirmButtonText: "确定",
+								closeOnConfirm: true
+							},
+							function() {
+								location.reload();
+							});
 					}
 				});
 			});

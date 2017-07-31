@@ -29,5 +29,10 @@ module.exports = new mongoose.Schema({
     like:{
         type: Array,
         default: []
-    }
+    },
+    direction:String,
+    position:String,
+    address:String,
+    gender:String,
+    birthday:String
 });

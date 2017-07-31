@@ -63,10 +63,14 @@
 				},
 				dataType: 'json',
 				success: function(data) {
-					alert(data.message);
+//					alert(data.message);
+					console.log(localStorage.userInfo);
 					if(data.code == 0) {
 						location.href="/";
 					}
+				},
+				error:function(data){
+					console.log(data);
 				}
 			});
 		});

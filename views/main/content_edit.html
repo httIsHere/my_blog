@@ -1,5 +1,4 @@
 {% extends 'nav-bar.html'%} {% block main%}
-{% if userInfo._id %}
 <div class="postedit-view">
 	<div class="userInfo">
 		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
@@ -8,7 +7,7 @@
 	<form method="post">
 		<div class="content-head">
 			<span>标题</span>
-			<input type="text" name="title" class="form-control" />
+			<input type="text" name="title" class="form-control" value="{{data.title}}"/>
 			<span>分类</span>
 			<select name="categories" class="form-control">
 				{% for category in categories %}
@@ -18,15 +17,10 @@
 			<button type="submit" class="btn" style="background: #88C1BC; color: #FFF;">发布</button><br>
 		</div>
 		<span style="line-height: 30px;">内容摘要</span><br>
-		<textarea id="description" class="form-control" rows="3" name="description"></textarea>
+		<textarea id="description" class="form-control" rows="3" name="description">{{data.description}}</textarea>
 		<br>
 		<span style="line-height: 20px;">文章正文</span><br>
-		<textarea id="article-content" class="form-control" rows="20" name="content"></textarea>
+		<textarea id="article-content" class="form-control" rows="20" name="content">{{data.content}}</textarea>
 	</form>
 </div>
-{% else %}
-<script type="text/javascript">
-	location.href = '/login';
-</script>
-{% endif %}
 {% endblock %}
