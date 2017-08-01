@@ -46,13 +46,13 @@ router.get('/', function (req, res, next) {
 // 请求模型中的User.js。
 var User = require('../models/User');
 //加载“用户管理”数据
-renderAdminTable(User, 'user', 5, '');
+renderAdminTable(User, 'user', 10, '');
 
 //分类管理
 // 添加分类及保存方法：post
 var Category = require('../models/Categories');
 //获得分类数据
-renderAdminTable(Category, 'category', 2, '');
+renderAdminTable(Category, 'category', 10, '');
 //添加分类
 router.post('/category/', function (req, res, next) {
     //处理前端数据

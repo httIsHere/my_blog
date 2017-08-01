@@ -113,6 +113,8 @@ router.post('/comment/post', function (req, res, next) {
             _id: contentId
         }).then(function (content) {
             content.comments.push(postData);
+            content.commentsCnt++;
+            content.views--;
             return content.save()
         }).then(function (newContent) {//最新的内容在newContent！
             responseData.message = '评论成功';
@@ -121,5 +123,21 @@ router.post('/comment/post', function (req, res, next) {
     }
 
 
+});
+//like this article
+router.post('/comment/liked', function (req, res, next) {
+    // 文章的id是需要前端提交的。
+    var contentId = req.body.contentId || '';
+    // 查询当前内容信息
+    Content.findOne({
+        _id: contentId
+    }).then(function (content) {
+        content.liked++;
+        content.views--;
+        return content.save()
+    }).then(function (newContent) {//最新的内容在newContent！
+        responseData.message = '评论成功';
+        res.json(responseData);
+    })
 });
 module.exports = router;//把router的结果作为模块的输出返回出去！

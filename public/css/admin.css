@@ -1,7 +1,12 @@
 /********************
  * GENERAL STYLES
  ********************/
-
+.add-btn{
+	height: 40px;
+	padding: 10px;
+	background: #88C1BC;
+	color: #FFF;
+}
 
 /* All styles created for demo purposes only, you may not need this for your project */
 table, tr, th, td{
@@ -117,10 +122,12 @@ footer {
 }
 
 #wrapper #sidebar-nav,
-#wrapper .main {
-	padding-top: 80px;
+#wrapper {
+	padding-top: 99px;
 }
-
+.main {
+	padding-top: 0;
+}
 @media screen and (max-width: 767px) {
 	#wrapper #sidebar-nav,
 	#wrapper .main {
@@ -269,12 +276,14 @@ html.fullscreen-bg #wrapper {
 @media screen and (max-width: 640px) {
 	.navbar-default #navbar-menu {
 		float: right;
+		width: 70%;
 	}
 }
 
 .navbar-btn {
 	float: left;
-	padding: 16px 0;
+	/*padding: 16px 0;*/
+	margin-top: 33px;
 }
 
 .navbar-btn button {
@@ -399,13 +408,14 @@ html.fullscreen-bg #wrapper {
 @media screen and (min-width: 768px) {
 	.navbar-nav.navbar-right {
 		margin-right: 0;
+		line-height: 99px;
 	}
 }
 
 @media screen and (max-width: 767px) {
 	.navbar-nav {
-		width: 100%;
 		margin: 0;
+		line-height: 99px;
 	}
 	.navbar-nav>li {
 		display: table-cell;

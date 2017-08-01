@@ -81,3 +81,16 @@ code{
 .article-content p{
 	margin: 5px 0;
 }
+.article-liked{
+	width: 100px;
+	height: 50px;
+	background: #D43F3A;
+	line-height: 50px;
+	margin: 20px auto;
+	color: #FFF;
+	text-align: center;
+	border-radius: 5px;
+}
+.article-liked:hover{
+	cursor: pointer;
+}

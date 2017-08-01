@@ -1,5 +1,4 @@
-{% extends 'nav-bar.html'%} {% block main%}
-{% if userInfo._id %}
+{% extends 'nav-bar.html'%} {% block main%} {% if userInfo._id %}
 <div class="my-view">
 	<div class="my-view-left">
 		<div class="userInfo">
@@ -23,14 +22,19 @@
 							<span>{{userInfo.username}}</span>
 							<span style="color: #888; font-size: 14px;">{{content.date}}</span>
 						</div>
-						<div class="articleTitle"><a href="/view?contentId={{content._id.toString()}}"><h4>{{content.title}}</h4></a></div>
-						<div class="articleDesp"><p>{{content.description}}</p></div>
+						<div class="articleTitle">
+							<a href="/view?contentId={{content._id.toString()}}">
+								<h4>{{content.title}}</h4></a>
+						</div>
+						<div class="articleDesp">
+							<p>{{content.description}}</p>
+						</div>
 						<div class="lookInfo">
 							<span><i class="fa fa-eye"></i> {{content.views}}</span>
 							<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
-							<span><i class="fa fa-heart-o"></i>{{content.liked}}</span>
+							<span><i class="fa fa-heart-o"></i> {{content.liked}}</span>
 						</div>
-						<hr style="margin-top: 0;"/>
+						<hr style="margin-top: 0;" />
 					</div>
 				</li>
 				{% endfor %}
@@ -38,15 +42,18 @@
 		</div>
 	</div>
 	<div class="my-view-right">
-		<ul>
+		<ul class="my-view-right-ul">
 			<li>
 				<i class="fa fa-address-card"></i>
 				<span>个人介绍</span>
 				<p>{{userInfo.introduction}}</p>
+				<hr />
 			</li>
 			<li>
-				<i class="fa fa-eye"></i>
-				<span>阅读排行</span>
+				<div class="ul-title">
+					<i class="fa fa-eye"></i>
+					<span>阅读排行</span>
+				</div>
 				<ul class="mid-ul">
 					{% for content in contents%}
 					<li>
@@ -55,18 +62,37 @@
 					</li>
 					{% endfor %}
 				</ul>
+				<hr />
 			</li>
 			<li>
-				<i class="fa fa-heart-o"></i>
-				<span>喜欢的文</span>
+				<div class="ul-title">
+					<i class="fa fa-heart-o"></i>
+					<span>热门排行</span>
+				</div>
 				<ul class="mid-ul">
-					{% for content in contents%}
+					{% for cnt in count%}
 					<li>
-						<span>{{content.title}}</span>
-						<span>({{content.views}})</span>
+						<span>{{cnt.title}}</span>
+						<span>({{cnt.liked}})</span>
 					</li>
 					{% endfor %}
 				</ul>
+				<hr />
+			</li>
+			<li>
+				<div class="ul-title">
+					<i class="fa fa-comment-o"></i>
+					<span>评论排行</span>
+				</div>
+				<ul class="mid-ul">
+					{% for cnt in commentCnt%}
+					<li>
+						<span>{{cnt.title}}</span>
+						<span>({{cnt.commentsCnt}})</span>
+					</li>
+					{% endfor %}
+				</ul>
+				<!--<hr />-->
 			</li>
 		</ul>
 	</div>
@@ -80,5 +106,8 @@
 	$(".articleDesp").dotdotdot();
 	$('.nav-content').removeClass('active-bar');
 	$('.nav-content').eq(3).addClass('active-bar');
+	$('.my-view-right-ul li').click(function() {
+		$(this).children().eq(1).slideToggle(300);
+	})
 </script>
 {% endblock %}

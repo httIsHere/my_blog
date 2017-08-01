@@ -40,6 +40,14 @@ module.exports = new mongoose.Schema({
         type: Array,
         default: []
     },
+    commentsCnt: {
+        type: Number,
+        default: 0
+    },
+    liked: {
+        type: Number,
+        default: 0
+    },
     //是否删除
     isDelete: {
         type: Boolean,

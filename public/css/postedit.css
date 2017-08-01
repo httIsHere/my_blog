@@ -136,3 +136,66 @@ li{
 	justify-content: space-between;
 	align-items: center;
 }
+.mid-ul li span{
+	font-size: 14px;
+}
+.my-view-right-ul li div:hover{
+	cursor: pointer;
+}
+.my-view-right-ul li ul{
+	display: none;
+}
+.myblog-view{
+	width: 667px;
+	padding: 20px;
+	background: #FFF;
+	margin: 10% auto;
+}
+.myblog-view p{
+	background: #eee;
+	border: 1px solid #ddd;
+	padding: 5px;
+}
+.myblog-row,.myblog-row > div{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.myblog-row > div{
+	width: 48%;
+	/*display: flex;
+	justify-content: flex-start;
+	align-items: center;*/
+}
+.myblog-row input[type=text]{
+	width: 80%;
+}
+.input-file{
+	position: relative;
+    display: inline-block;
+    background: rgba(136, 193, 188, 0.3);
+    border: 1px solid #88C1BC;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #88C1BC;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 30px;
+    text-align: center;
+    width: 150px;
+}
+.input-file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.input-file:hover {
+    background: rgba(136, 193, 188, 0.7);
+    border-color: #88C1BC;
+    color: #FFF;
+    text-decoration: none;
+}

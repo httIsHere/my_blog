@@ -82,7 +82,10 @@ router.get('/article', function (req, res, next) {
 
         return Content.where(where).find().limit(data.limit).skip(skip).sort({ _id: -1 }).populate(['category', 'user']);
     }).then(function (contents) {
-        data.contents = contents;
+        if(contents.length > 0)
+            data.contents = contents;
+        else
+            data.contents = null;
         console.log(data);//这里有你想要的所有数据
         res.render('main/article', data);
     })
@@ -198,7 +201,8 @@ router.get('/postlist', function (req, res, next) {
     Content.find({
         user: req.userInfo._id,
         isDelete: false
-    }).then(function (contents) {
+    }).sort({date:-1})
+    .then(function (contents) {
         console.log(contents);
         res.render('main/postlist', {
             userInfo: req.userInfo,
@@ -344,32 +348,69 @@ router.get('/myArticles', function (req, res, next) {
         categories: [],
         count: []
     };
-    var where = {};
-    if (data.category) {
-        where.category = data.category
-    }
     // 读取分类信息
     Category.find().then(function (categories) {
         data.categories = categories;
 
-        return Content.where(where).count();
+        return Content.count();
     }).then(function (count) {
-        return Content.where(where).find({
+        return Content.find({
             user: req.userInfo._id,
             isDelete: false
         }).sort({ views: -1 });
     }).then(function (contents) {
         data.contents = contents;
-        return Content.aggregate([{ $group: { _id: "$category", count: { $sum: 1 } } }]);
+        return Content.find({
+            user: req.userInfo._id,
+            isDelete: false
+        }).sort({ liked: -1 });
     }).then(function (rs) {
         data.count = rs;
+        return Content.find({
+            user: req.userInfo._id,
+            isDelete: false
+        }).sort({ commentsCnt: -1 });
+    }).then(function(commentCnt){
+        data.commentCnt = commentCnt;
         console.log(data);//这里有你想要的所有数据
         res.render('main/myArticle', data);
     });
 });
 //myTTBLOG
 router.get('/myTTBLOG', function (req, res, next) {
-    res.render('main/myblog');
+   var data = {
+        userInfo: req.userInfo,
+        category: req.query.category || '',
+        categories: [],
+        count: []
+    };
+    // 读取分类信息
+    Category.find().then(function (categories) {
+        data.categories = categories;
+
+        return Content.count();
+    }).then(function (count) {
+        return Content.find({
+            user: req.userInfo._id,
+            isDelete: false
+        }).sort({ views: -1 });
+    }).then(function (contents) {
+        data.contents = contents;
+        return Content.find({
+            user: req.userInfo._id,
+            isDelete: false
+        }).sort({ liked: -1 });
+    }).then(function (rs) {
+        data.count = rs;
+        return Content.find({
+            user: req.userInfo._id,
+            isDelete: false
+        }).sort({ commentsCnt: -1 });
+    }).then(function(commentCnt){
+        data.commentCnt = commentCnt;
+        console.log(data);//这里有你想要的所有数据
+        res.render('main/myblog', data);
+    });
 });
 
 //look others main page

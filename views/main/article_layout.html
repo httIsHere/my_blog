@@ -7,6 +7,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="bookmark" type="image/x-icon" href="../public/images/favicon.ico" />
+		<link rel="shortcut icon" href="../public/images/favicon.ico">
 		<!--<link rel="stylesheet" href="../../public/vendor/bootstrap/css/bootstrap.min.css">-->
 		<link rel="stylesheet" href="../../public/vendor/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="../../public/css/calendar.css" />
@@ -71,7 +73,7 @@
 						</div>
 						<div class="blog-category">
 							<ul>
-								<li>
+								<li class="cate-active">
 									<a href="/article">全部文章</a>
 								</li>
 								{% for category in categories %}
@@ -86,6 +88,8 @@
 			</div>
 		</div>
 		<script type="text/javascript">
+			//点赞参数？
+			var liked = 0;
 			$('#logout').click(function() {
 				$.ajax({
 					type: 'get',
@@ -102,6 +106,7 @@
 				width: 320,
 				height: 320
 			});
+			//评论
 			$('#commentBtn').click(function() {
 				$.ajax({
 					type: "post",
@@ -122,6 +127,20 @@
 							function() {
 								location.reload();
 							});
+					}
+				});
+			});
+			//点赞
+			$('.article-liked').click(function() {
+				console.log('clicked me.');
+				$.ajax({
+					type: "post",
+					url: "/api/comment/liked",
+					data: {
+						contentId: $('#contentId').val()
+					},
+					success: function() {
+						location.reload();
 					}
 				});
 			});

@@ -1,5 +1,4 @@
-{% extends 'nav-bar.html'%} {% block main%}
-{% if userInfo._id %}
+{% extends 'nav-bar.html'%} {% block main%} {% if userInfo._id %}
 <div class="postedit-view">
 	<div class="userInfo">
 		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
@@ -22,6 +21,7 @@
 		<br>
 		<span style="line-height: 20px;">文章正文</span><br>
 		<textarea id="article-content" class="form-control" rows="20" name="content"></textarea>
+		<!--<div id='edit' style="margin-top: 30px;"></div>-->
 	</form>
 </div>
 {% else %}
@@ -29,4 +29,20 @@
 	location.href = '/login';
 </script>
 {% endif %}
+<script src="../../public/js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../public/js/froala_editor.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../public/plugins/tables.min.js"></script>
+<script src="../../public/plugins/lists.min.js"></script>
+<script src="../../public/plugins/colors.min.js"></script>
+<script src="../../public/plugins/media_manager.min.js"></script>
+<script src="../../public/plugins/font_family.min.js"></script>
+<script src="../../public/plugins/font_size.min.js"></script>
+<script src="../../public/plugins/block_styles.min.js"></script>
+<script src="../../public/plugins/video.min.js"></script>
+<script type="text/javascript">
+	$('#edit').editable({
+		inlineMode: false,
+		alwaysBlank: true
+	});
+</script>
 {% endblock %}

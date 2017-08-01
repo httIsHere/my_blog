@@ -1,12 +1,31 @@
 {% extends 'article_layout.html' %} {% block main %}
 <div class="imageShow">
-	<div class="imageShow1" style="width: 500px;"></div>
-	<div class="imageShow2" style="width: 340px;"></div>
+	<div class="imageShow" style="width: 500px;">
+		<figure class="effect-layla">
+			<a href="/view?contentId=597fd4b7915baa2a7099ba2d">
+				<img src="../../public/images/article.jpg" alt="img06" />
+				<figcaption>
+					<h2>从译文对比中找差距 不断提高英文水平</h2>
+					<p class="blog-desp" style="color: #FFF;">先做3遍英译中：找一部已有优质译本的英文小说，花功夫，先将它翻译成中文，然后认认真真、仔仔细细把自己的译文同优质译本作对比，思考人家为什么这样翻</p>
+				</figcaption>
+			</a>
+		</figure>
+	</div>
+	<div class="imageShow" style="width: 340px;">
+		<figure class="effect-layla">
+			<img src="../../public/images/article.jpg" alt="img06" />
+			<figcaption>
+				<h2>FFmpeg任意文件读取漏洞分析</h2>
+				<!--<p>在智能时代，以对话为主要交互形式的CUI会应用到越来越多的场景中，这时机器往往需要能够完成“听懂——理解——回答”的闭环。它们相应地涉及到三类技术：语音识别、自然语言处理以...</p>-->
+			</figcaption>
+		</figure>
+	</div>
 </div>
 <div class="news">
 	<a href="">>>经典解析</a>
 	<a href="">>>拯救你的盲区</a>
 </div>
+{% if contents %}
 <div class="blog-article" style="display: block;">
 	{% for content in contents %}
 	<dl class="blog-content">
@@ -28,4 +47,4 @@
 	</dl>
 	{% endfor %} {% include 'page.html' %}
 </div>
-{% endblock %}
+{% endif %} {% endblock %}

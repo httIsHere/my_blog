@@ -1,5 +1,42 @@
 {% extends 'nav-bar.html'%} {% block main%}
 <div class="myblog-view">
-	
+	<form method="post">
+		<h4>编辑信息</h4>
+		<hr />
+		<a class="input-file">选择头像
+			<input type="file" name="headimg" id="headimg" value="选择头像" />
+		</a>
+		<p>用户名：{{userInfo.username}}</p>
+		<div class="myblog-row">
+			<div>
+				<span>职位：</span>
+				<input type="text" name="position" class="form-control" />
+			</div>
+			<div>
+				<span>性别：</span>
+				<input type="radio" name="gender" id="gender" value="male" checked/> 男
+				<input type="radio" name="gender" id="gender" value="female" /> 女
+			</div>
+		</div>
+		<div class="myblog-row">
+			<div>
+				<span>生日：</span>
+				<input type="text" class="form-control" name="birthday" />
+			</div>
+			<div>
+				<span>行业：</span>
+				<input type="text" class="form-control" name="direction" />
+			</div>
+		</div>
+		<div class="myblog-row">
+			<div>
+				<span>地区：</span>
+				<input type="text" class="form-control" name="address"/>
+			</div>
+		</div>
+		<span>简介：</span>
+		<textarea type="text" class="form-control" style="margin-bottom: 10px;"></textarea>
+		<input type="submit" value="保存" class="btn" style="background: #88C1BC;color: #FFF;"/>
+	</form>
 </div>
 {% endblock %}

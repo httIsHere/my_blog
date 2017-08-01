@@ -12,9 +12,11 @@
 		<link rel="stylesheet" href="../../public/vendor/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="../../public/vendor/linearicons/style.css">
 		<link rel="stylesheet" href="../../public/vendor/chartist/css/chartist-custom.css">
+		<link rel="stylesheet" type="text/css" href="../../public/css/sweetalert.css"/>
 		<!-- MAIN CSS -->
 		<link rel="stylesheet" href="../../public/css/admin.css">
 		<script type="text/javascript" src="../../public/js/jquery-3.2.1.min.js"></script>
+		<script src="../../public/js/sweetalert-dev.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -23,7 +25,7 @@
 			<!-- NAVBAR -->
 			<nav class="navbar navbar-default navbar-fixed-top">
 				<div class="brand">
-					<a href="#">TTBLOG</a>
+					<h4><a href="#">TTBLOG</a></h4>
 				</div>
 				<div class="container-fluid">
 					<div class="navbar-btn">
@@ -63,7 +65,7 @@
 								</a>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+								<a href="/login" class="dropdown-toggle icon-menu">
 									退出
 								</a>
 							</li>
@@ -78,7 +80,7 @@
 					<nav>
 						<ul class="nav">
 							<li>
-								<a class="active"><i class="lnr lnr-home"></i> <span>首页</span></a>
+								<a class="active" href="/"><i class="lnr lnr-home"></i> <span>首页</span></a>
 							</li>
 							<li>
 								<a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>设置</span></a>
