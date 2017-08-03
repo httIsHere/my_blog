@@ -3,14 +3,14 @@
 	<form method="post">
 		<h4>编辑信息</h4>
 		<hr />
-		<a class="input-file">选择头像
+		<!--<a class="input-file">选择头像
 			<input type="file" name="headimg" id="headimg" value="选择头像" />
-		</a>
+		</a>-->
 		<p>用户名：{{userInfo.username}}</p>
 		<div class="myblog-row">
 			<div>
 				<span>职位：</span>
-				<input type="text" name="position" class="form-control" />
+				<input type="text" name="position" class="form-control" value="{{userInfo.position}}"/>
 			</div>
 			<div>
 				<span>性别：</span>
@@ -21,22 +21,26 @@
 		<div class="myblog-row">
 			<div>
 				<span>生日：</span>
-				<input type="text" class="form-control" name="birthday" />
+				<input type="text" class="form-control" name="birthday" value="{{userInfo.birthday}}"/>
 			</div>
 			<div>
 				<span>行业：</span>
-				<input type="text" class="form-control" name="direction" />
+				<input type="text" class="form-control" name="direction" value="{{userInfo.direction}}"/>
 			</div>
 		</div>
 		<div class="myblog-row">
 			<div>
 				<span>地区：</span>
-				<input type="text" class="form-control" name="address"/>
+				<input type="text" class="form-control" name="address" value="{{userInfo.address}}"/>
 			</div>
 		</div>
 		<span>简介：</span>
-		<textarea type="text" class="form-control" style="margin-bottom: 10px;"></textarea>
+		<textarea type="text" class="form-control" name="description" style="margin-bottom: 10px;">{{userInfo.description}}</textarea>
 		<input type="submit" value="保存" class="btn" style="background: #88C1BC;color: #FFF;"/>
 	</form>
 </div>
+<script type="text/javascript">
+	$('.nav-content').removeClass('active-bar');
+	$('.nav-content').eq(3).addClass('active-bar');
+</script>
 {% endblock %}

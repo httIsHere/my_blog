@@ -8,16 +8,10 @@ var Content = require('../models/Contents');
 var User = require('../models/User');
 
 var marked = require('marked');
-marked.setOptions({
-    renderer: new marked.Renderer,
-    gfm: true,
-    tables: true,
-    breaks: false,
-    pedantic: false,
-    sanitize: false,
-    smartLists: true,
-    smartypants: false
-});
+
+var multer = require('multer');//用于上传文件
+//用于文件移动保存
+var fs = require("fs");
 
 // 统一返回格式
 var responseData = null;
@@ -31,14 +25,76 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-    // 读取分类信息
+    var data = {
+        userInfo: req.userInfo,
+        category: req.query.category || '',
+        categories: [],
+        count: 0,
+        page: Number(req.query.page || 1),
+        limit: 5,
+        pages: 0,
+        users: []
+    };
+
     Category.find().then(function (categories) {
-        // console.log(categories);
-        res.render('main/index', {
-            userInfo: req.userInfo,
-            categories: categories
-        });
+        data.categories = categories;
     });
+    User.count().then(function (count) {
+        data.count = count;
+        //计算总页数
+        data.pages = Math.ceil(data.count / data.limit);
+        data.page = Math.floor(Math.random()*data.pages)+1;
+        console.log(data.page);
+        // 取值不超过pages
+        data.page = Math.min(data.page, data.pages);
+        // 取值不小于1
+        data.page = Math.max(data.page, 1);
+        console.log(data.page);
+        // skip不需要分配到模板中，所以忽略。
+        var skip = (data.page - 1) * data.limit;
+        return User.find().limit(data.limit).skip(skip).sort({ date: -1 });
+    }).then(function (users) {
+        console.log(users);
+        for (var j = 0; j < users.length; j++) {
+            var isFan = -1;
+            for (var i = 0; i < users[j].fans.length; i++) {
+                if (users[j].fans[i].name == req.userInfo.username) {
+                    isFan = i;
+                    break;
+                }
+            }
+            if (isFan != -1) {
+                users[j].myFan = true;
+            }
+            else {
+                users[j].myFan = false;
+            }
+        }
+        data.users = users;
+        console.log(data);
+        res.render('main/index', data);
+    });
+    // User.find().then(function (users) {
+    //     // for (user in users) {
+    //     for (var j = 0; j < users.length; j++) {
+    //         var isFan = -1;
+    //         for (var i = 0; i < users[j].fans.length; i++) {
+    //             if (users[j].fans[i].name == req.userInfo.username) {
+    //                 isFan = i;
+    //                 break;
+    //             }
+    //         }
+    //         if (isFan != -1) {
+    //             users[j].myFan = true;
+    //         }
+    //         else {
+    //             users[j].myFan = false;
+    //         }
+    //     }
+    //     data.users = users;
+    //     console.log(data);
+    //     res.render('main/index', data);
+    // });
 });
 //登录
 router.get('/login', function (req, res, next) {
@@ -82,7 +138,7 @@ router.get('/article', function (req, res, next) {
 
         return Content.where(where).find().limit(data.limit).skip(skip).sort({ _id: -1 }).populate(['category', 'user']);
     }).then(function (contents) {
-        if(contents.length > 0)
+        if (contents.length > 0)
             data.contents = contents;
         else
             data.contents = null;
@@ -201,14 +257,14 @@ router.get('/postlist', function (req, res, next) {
     Content.find({
         user: req.userInfo._id,
         isDelete: false
-    }).sort({date:-1})
-    .then(function (contents) {
-        console.log(contents);
-        res.render('main/postlist', {
-            userInfo: req.userInfo,
-            contents: contents
+    }).sort({ date: -1 })
+        .then(function (contents) {
+            console.log(contents);
+            res.render('main/postlist', {
+                userInfo: req.userInfo,
+                contents: contents
+            });
         });
-    });
 });
 //文章编辑
 router.get('/edit', function (req, res, next) {
@@ -370,19 +426,25 @@ router.get('/myArticles', function (req, res, next) {
             user: req.userInfo._id,
             isDelete: false
         }).sort({ commentsCnt: -1 });
-    }).then(function(commentCnt){
+    }).then(function (commentCnt) {
         data.commentCnt = commentCnt;
+        return User.findOne({
+            _id: req.userInfo._id
+        });
+    }).then(function (users) {
+        data.userInfo = users;
         console.log(data);//这里有你想要的所有数据
         res.render('main/myArticle', data);
-    });
+    })
 });
-//myTTBLOG
-router.get('/myTTBLOG', function (req, res, next) {
-   var data = {
+//following
+router.get('/following', function (req, res, next) {
+    var data = {
         userInfo: req.userInfo,
         category: req.query.category || '',
         categories: [],
-        count: []
+        count: [],
+        users: []
     };
     // 读取分类信息
     Category.find().then(function (categories) {
@@ -406,19 +468,110 @@ router.get('/myTTBLOG', function (req, res, next) {
             user: req.userInfo._id,
             isDelete: false
         }).sort({ commentsCnt: -1 });
-    }).then(function(commentCnt){
+    }).then(function (commentCnt) {
         data.commentCnt = commentCnt;
-        console.log(data);//这里有你想要的所有数据
-        res.render('main/myblog', data);
+        return User.findOne({
+            _id: req.userInfo._id
+        });
+    }).then(function (user) {
+        data.userInfo.focus = user.focus;
+        for (var i = 0; i < user.focus.length; i++) {
+            User.findOne({
+                _id: user.focus[i].id
+            }).then(function (u) {
+                data.users.push(u);
+            })
+        }
+        console.log(data);
+        res.render('main/following', data);
     });
 });
 
+
+//上传头像
+router.get('/uploadHead', function (req, res, next) {
+    res.render('main/headimg', {
+        userInfo: req.userInfo
+    });
+});
+//头像修改
+router.post('/uploadHead', function (req, res, next) {
+    //后缀
+    var type = 'jpg';
+    var data = req.body.image;
+    //去掉图片base64码前面部分data:image/png;base64
+    var base64 = data.replace(/^data:image\/\w+;base64,/, "");
+    var dataBuffer = new Buffer(base64, 'base64');
+    var filename = req.userInfo._id.toString() + '.' + type;
+    var des_file = "public\\headimg\\" + filename;
+    fs.writeFile(des_file, dataBuffer, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            //修改数据库的头像信息
+            User.findOne({
+                _id: req.userInfo._id
+            }).then(function (user) {
+                user.headimg = "../../public/headimg/" + filename;
+                return user.save();
+            }).then(function (userInfo) {
+                responseData.result = 'ok';
+                responseData.image = userInfo.headimg;
+                res.json(responseData);
+
+            })
+        }
+    });
+});
+router.get('/commentslist', function (req, res, next) {
+    //查询用户所有评论
+    Content.find({
+        user: req.userInfo._id,
+        isDelete: false
+    }).sort({ date: -1 })
+        .then(function (contents) {
+            console.log(contents);
+            res.render('main/commentslist', {
+                userInfo: req.userInfo,
+                contents: contents
+            });
+        });
+});
+//myTTBLOG
+router.get('/myTTBLOG', function (req, res, next) {
+    User.findOne({
+        _id: req.userInfo._id
+    }).then(function (user) {
+        res.render('main/myblog', {
+            userInfo: user
+        });
+    });
+});
+router.post('/myTTBLOG', function (req, res, next) {
+    console.log(req.body);
+    User.findOne({
+        _id: req.userInfo._id
+    }).then(function (user) {
+        user.position = req.body.position;
+        user.gender = req.body.gender;
+        user.birthday = req.body.birthday;
+        user.direction = req.body.direction;
+        user.address = req.body.address;
+        user.description = req.body.description;
+        return user.save();
+    }).then(function (newUser) {
+        res.render('main/myblog', {
+            userInfo: newUser
+        });
+    });
+});
 //look others main page
 router.get('/lookHim', function (req, res, next) {
     var id = req.query.id || '';
     console.log(id);
     var data = {
-        userInfo:req.userInfo,
+        userInfo: req.userInfo,
         hisInfo: null
     };
     User.findOne({
@@ -429,10 +582,10 @@ router.get('/lookHim', function (req, res, next) {
             user: id,
             isDelete: false
         }).sort({ views: -1 });
-    }).then(function(contents){
+    }).then(function (contents) {
         data.contents = contents;
         console.log(data);
-        res.render('main/hisblog',data);
+        res.render('main/hisblog', data);
     })
 });
 module.exports = router;//把router的结果作为模块的输出返回出去！

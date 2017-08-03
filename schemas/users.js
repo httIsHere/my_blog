@@ -10,29 +10,31 @@ module.exports = new mongoose.Schema({
     // 密码
     password: String,
     // 是否管理员
-    isAdmin:{
-        type:Boolean,
-        default:false
+    isAdmin: {
+        type: Boolean,
+        default: false
     },
     headimg: {
-        type:String,
-        default:'http://upload.jianshu.io/users/upload_avatars/6080416/5c0f8fde-fbfe-424c-9b75-2dd20a3d8aa5.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'
+        type: String,
+        default: '../../public/headimg/default.jpg'
     },
-    focus:{
+    focus: {
         type: Array,
         default: []
     },
-    fans:{
+    fans: {
         type: Array,
         default: []
     },
-    like:{
+    like: {
         type: Array,
         default: []
     },
-    direction:String,
-    position:String,
-    address:String,
-    gender:String,
-    birthday:String
+    direction: String,
+    position: String,
+    address: String,
+    gender: String,
+    birthday: String,
+    description: String,
+    date: String
 });

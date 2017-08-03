@@ -1,3 +1,11 @@
+body{
+	background: #f0f0f0;
+	color: #000;
+}
+a{
+	color: #000;
+	text-decoration: none;
+}
 .postedit-view ,.postlist-view,.my-view{
 	width: 960px;
 	padding: 20px;
@@ -15,7 +23,9 @@
 .userInfo>* {
 	margin-right: 15px;
 }
-
+.userInfo a{
+	text-decoration: none;
+}
 textarea {
 	resize: none;
 	width: 100%;
@@ -103,6 +113,9 @@ table, th, td{
 }
 .userInfo img{
 	float: left;
+}
+ul{
+	padding: 0;
 }
 li{
 	list-style: none;
@@ -198,4 +211,28 @@ li{
     border-color: #88C1BC;
     color: #FFF;
     text-decoration: none;
+}
+/*---------------关注用户--------------*/
+.my-headimg, .my-headimg img{
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+}
+.focus-list{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.focus-list .user-info{
+	width: 320px;
+	height: 60px;
+}
+.user-info div:nth-child(2){
+	width: 150px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.user-info span{
+	font-size: 14px;
 }

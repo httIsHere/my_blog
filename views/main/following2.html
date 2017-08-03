@@ -1,0 +1,25 @@
+{% extends 'following_layout.html'%} {% block following %}
+<h3>关注用户 {{users.length}}</h3>
+<ul>
+	{% for user in users %}
+	<li class="focus-list">
+		<div class="my-headimg">
+			<img src="{{user.headimg}}" />
+		</div>
+		<div class="user-info">
+			<div>{{user.username}}</div>
+			<div>
+				<span>关注：{{user.focus.length}}</span>|
+				<span>粉丝：{{user.fans.length}}</span>
+			</div>
+		</div>
+		<div class="focus-u-div">
+			<a href="javascript:;" class="focus-u focus-active" id="{{user._id.toString()}}/{{user.username}}">
+				<i class="fa fa-check"></i> 已关注
+			</a>
+		</div>
+	</li>
+	<hr style="margin-top: 10px;" /> 
+	{% endfor %}
+</ul>
+{% endblock %}

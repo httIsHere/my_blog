@@ -1,4 +1,11 @@
 {% extends 'nav-bar.html'%} {% block main%} {% if userInfo._id %}
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<!--<script>tinymce.init({ 
+	selector: 'textarea',
+	language_url: '../../public/js/zh_CN.js',
+	api_key:'xagkqjfh3d72rkklhpsuk3fu7kg4d8rbcch0q8m72kd0tc41'
+});
+</script>-->
 <div class="postedit-view">
 	<div class="userInfo">
 		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
@@ -29,20 +36,4 @@
 	location.href = '/login';
 </script>
 {% endif %}
-<script src="../../public/js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../public/js/froala_editor.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../public/plugins/tables.min.js"></script>
-<script src="../../public/plugins/lists.min.js"></script>
-<script src="../../public/plugins/colors.min.js"></script>
-<script src="../../public/plugins/media_manager.min.js"></script>
-<script src="../../public/plugins/font_family.min.js"></script>
-<script src="../../public/plugins/font_size.min.js"></script>
-<script src="../../public/plugins/block_styles.min.js"></script>
-<script src="../../public/plugins/video.min.js"></script>
-<script type="text/javascript">
-	$('#edit').editable({
-		inlineMode: false,
-		alwaysBlank: true
-	});
-</script>
 {% endblock %}

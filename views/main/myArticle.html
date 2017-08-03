@@ -4,11 +4,17 @@
 		<div class="userInfo">
 			<img src="{{userInfo.headimg}}" />
 			<div>
-				<h3>{{userInfo.username}}</h3></div>
+				<h2 style="padding-top: 1rem;">{{userInfo.username}}</h2></div>
 			<div style="width: 500px;">
-				<span style="margin-right: 25px;">关注 - {{userInfo.focus.length}}</span>|
-				<span style="margin-right: 25px;">粉丝 - {{userInfo.fans.length}}</span>|
-				<span style="margin-right: 25px;">文章 - {{contents.length}}</span>
+				<a href="/following">
+					<span style="margin-right: 25px;">关注 - {{userInfo.focus.length}}</span>
+				</a>|
+				<a href="/following">
+					<span style="margin-right: 25px;">粉丝 - {{userInfo.fans.length}}</span>
+				</a>|
+				<a href="/myArticles">
+					<span style="margin-right: 25px;">文章 - {{contents.length}}</span>
+				</a>
 			</div>
 		</div>
 		<hr>
@@ -22,7 +28,7 @@
 							<span>{{userInfo.username}}</span>
 							<span style="color: #888; font-size: 14px;">{{content.date}}</span>
 						</div>
-						<div class="articleTitle">
+						<div class="articleTitle" style="margin-top: 5px;">
 							<a href="/view?contentId={{content._id.toString()}}">
 								<h4>{{content.title}}</h4></a>
 						</div>

@@ -72,6 +72,9 @@
 					if(data.code == 0) {
 						location.href = '/';
 					}
+				},
+				error:function(data){
+					console.log(data);
 				}
 			});
 		});

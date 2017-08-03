@@ -9,6 +9,8 @@ var mongoose = require('mongoose');
 // 加载body-parser，用以处理post提交过来的数据
 var bodyParser = require('body-parser');
 
+var multer = require('multer');
+
 var Cookies = require('cookies');
 
 //cookies save
@@ -37,7 +39,9 @@ app.use('/public', express.static(__dirname + '/public'));
 
 
 // bodyParser设置
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10000kb' }));
+
+app.use(multer({ dest: '/tmp/' }).array('image'));
 
 // 根据功能划分路由（routers）
 app.use('/admin', require('./routers/admin'));

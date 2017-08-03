@@ -1,0 +1,87 @@
+{% extends 'nav-bar.html'%} {% block main%}
+<div class="postlist-view">
+	<div class="userInfo">
+		<div class="up-img-cover" id="up-img-touch">
+			<img id="myhead" src="{{userInfo.headimg}}" data-am-popover="{content: '点击上传头像', trigger: 'hover focus'}" />
+		</div>
+		<div>
+			<a style="text-align: center; display: block;" id="pic"></a>
+		</div>
+		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
+		<span><a href="/myArticles" style="color: #88C1BC;">{{userInfo.username}}的博客</a></span>
+	</div>
+	<div class="func-btn">
+		<div class="list-bar">
+			<div class="list-bar-content">
+				<a href="/postlist">文章列表</a>
+			</div>
+			<div class="list-bar-content content-active">
+				<a href="/commentslist">评论管理</a>
+			</div>
+			<div class="list-bar-content">
+				<a href="/trash">回收站</a>
+			</div>
+		</div>
+		<div class="write-new">
+			<a href="/postedit"><i class="fa fa-pencil fa-fw"></i> 写新文章</a>
+		</div>
+	</div>
+	<div class="postlist-table">
+		<table class="table table-bordered table-hover text-center" border="1" id="articleInfoTab">
+			<thead class="sceneNameText text-center" id="listTitle">
+				<th>标题</th>
+				<th>评论</th>
+				<th>留言者</th>
+				<th>时间</th>
+				<th>操作</th>
+			</thead>
+			<tbody>
+				{% for content in contents %} {% for com in content.comments%}
+				<tr>
+					<td class="text-left">
+						RE：<a href="/view?contentId={{content._id.toString()}}">{{content.title}}</a>
+					</td>
+					<td>{{com.content}}</td>
+					<td><a href="/lookHim?id={{com.id}}">{{com.username}}</a></td>
+					<td>{{com.postTime}}</td>
+					<td>
+						<a href="/delete?id={{content._id.toString()}}">删除</a>
+					</td>
+				</tr>
+				<!--<tr>
+					<td colspan="4">{{com.content}}</td>
+				</tr>-->
+				{% endfor %} {% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	$('.nav-content').removeClass('active-bar');
+	$('.nav-content').eq(3).addClass('active-bar');
+	$('#articleInfoTab').dataTable({
+		"sortable": false, //是否启用排序
+		"bLengthChange": true, //改变每页显示数据数量
+		"ordering": false,
+		"bAutoWidth": false,
+		"bProcessing": true,
+		"iDisplayLength": 10,
+		"oLanguage": {
+			"sLengthMenu": "每页显示 _MENU_ 条留言",
+			"sZeroRecords": "抱歉， 没有找到相应留言",
+			"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条留言",
+			"sInfoEmpty": "没有留言数据",
+			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+			"sSearch": "搜索",
+			"oPaginate": {
+				"sFirst": "首页",
+				"sPrevious": "前一页",
+				"sNext": "后一页",
+				"sLast": "尾页"
+			},
+			"sZeroRecords": "无留言数据",
+			"bStateSave": true //保存状态到cookie *************** 很重要
+		}
+	});
+</script>
+{% endblock %}

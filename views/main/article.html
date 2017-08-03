@@ -30,7 +30,7 @@
 	{% for content in contents %}
 	<dl class="blog-content">
 		<dt>
-			<a href="/lookHim?id={{content.user._id.toString()}}"><img src="http://avatar.csdn.net/A/A/1/1_linglian0522.jpg"/></a>
+			<a href="/lookHim?id={{content.user._id.toString()}}"><img src="{{content.user.headimg}}"/></a>
 			<a href="/lookHim?id={{content.user._id.toString()}}" class="nickname">{{content.user.username}}</a>
 		</dt>
 		<dd>

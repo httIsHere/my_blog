@@ -16,9 +16,75 @@
 
 	<div class="main-view-right">
 		<!--news-->
-		<div class="main-view-news">
+		<!--<div class="main-view-news">
 
+		</div>-->
+		<!--auther-->
+		<div class="main-view-auther">
+			<div style="display: flex;justify-content: space-between;align-items: center;">
+				<span>推荐关注</span>
+				<!--{{pages}}-->
+				{% if page+1<=pages %} 
+				<span><a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a></span>
+				{% else %}
+				<span><a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a></span>
+				{% endif %}
+			</div>
+			<ul>
+				{% for user in users%}
+				<li>
+					<img src="{{user.headimg}}" />
+					<div class="main-auther-message">
+						<div>{{user.username}}</div>
+						<div>粉丝：{{user.fans.length}}</div>
+					</div>
+					<div class="focus-btn">
+						{% if user.myFan %}
+						<a href="javascript:;" class="focus-u focus-active" id="{{user._id.toString()}}/{{user.username}}">
+							<i class="fa fa-check"></i> 已关注
+						</a>
+						{% else %}
+						<a href="javascript:;" class="focus-u" id="{{user._id.toString()}}/{{user.username}}">
+							<i class="fa fa-plus"></i> 关注
+						</a>
+						{% endif %}
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(".focus-u").click(function() {
+		var index = $(this).index('.focus-u');
+		var info = $(this).attr('id').split('/');
+		var id = info[0];
+		var name = info[1];
+		console.log(id);
+		$.ajax({
+			type: "post",
+			url: "api/focus",
+			data: {
+				id: id,
+				name: name
+			},
+			dataType: 'json',
+			success: function(data) {
+				swal('', data.message, 'success');
+				$('.main-auther-message').eq(index).children().eq(1).text("粉丝：" + data.nowfans);
+				if(data.message == "关注成功") {
+					$('.focus-u').eq(index).html('<i class="fa fa-check"></i> 已关注');
+					$('.focus-u').eq(index).addClass('focus-active');
+				} else if(data.message == "取关成功") {
+					$('.focus-u').eq(index).html('<i class="fa fa-plus"></i> 关注');
+					$('.focus-u').eq(index).removeClass('focus-active');
+				}
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	})
+</script>
 {% endblock %}

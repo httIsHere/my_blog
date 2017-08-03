@@ -33,16 +33,19 @@ router.post('/user/register', function (req, res, next) {
             responseData.message = '该用户名已被注册！';
             res.json(responseData);
             return;
-        } else {//保存用户名信息到数据库中
+        }
+        else {//保存用户名信息到数据库中
             var user = new User({
                 username: username,
                 password: password,
+                date: new Date().toLocaleString()
             });
             return user.save();
         }
     }).then(function (newUserInfo) {
         responseData.message = '注册成功！';
-        req.cookies.set('userInfo', JSON.stringify(userInfo));
+        req.cookies.set('userInfo', JSON.stringify(newUserInfo));
+        console.log(responseData);
         res.json(responseData);
         return;
     });
@@ -70,15 +73,19 @@ router.post('/user/login', function (req, res, next) {
             responseData.message = '用户名或密码错误！';
             res.json(responseData);
             return;
-        } else {
-            responseData.message = new Buffer('中文 test').toString('base64');
-            responseData.userInfo = userInfo.username;
-            // req.cookies.set('userInfo', JSON.stringify({
-            //     _id:userInfo._id.toString(),
-            //     username:userInfo.username,
-            //     headimg:userInfo.headimg
-            // }));
-            req.cookies.set('userInfo', JSON.stringify(userInfo));
+        }
+        else {
+            responseData.message = '登录成功！';
+            responseData.userInfo = userInfo;
+            req.cookies.set('userInfo', JSON.stringify({
+                username: userInfo.username,
+                _id: userInfo._id,
+                headimg: userInfo.headimg,
+                isAdmin: userInfo.isAdmin,
+                focus:userInfo.focus,
+                fans:userInfo.fans
+            }));
+            console.log(responseData);
             res.json(responseData);
             return;
         }
@@ -103,11 +110,11 @@ router.post('/comment/post', function (req, res, next) {
     }
     else {
         var postData = {
+            id: req.userInfo._id.toString(),
             username: req.userInfo.username,
             postTime: new Date().toLocaleString(),
             content: req.body.content
         };
-        // console.log(postData);
         // 查询当前内容信息
         Content.findOne({
             _id: contentId
@@ -139,5 +146,64 @@ router.post('/comment/liked', function (req, res, next) {
         responseData.message = '评论成功';
         res.json(responseData);
     })
+});
+//focus this user
+router.post('/focus', function (req, res, next) {
+    var id = req.body.id || '';
+    var name = req.body.name;
+    var userId = req.userInfo._id.toString();
+    console.log(id + " " + userId);
+    //查询是否已关注，已关注则取消关注
+    var isFan = -1;
+    User.findOne({
+        _id: id
+    }).then(function (user) {
+        //遍历粉丝数组？
+        for (var i = 0; i < user.fans.length; i++) {
+            if (user.fans[i].name == req.userInfo.username) {
+                isFan = i;
+                break;
+            }
+        }
+        //是fan就取消关注，不是则关注
+        if (isFan != -1) {
+            //取消
+            user.fans.splice(isFan, 1);
+            user.save();
+        }
+        else {
+            user.fans.push({
+                id: req.userInfo._id.toString(),
+                name: req.userInfo.username
+            });
+            user.save();
+        }
+        responseData.nowfans = user.fans.length;
+        return User.findOne({ _id: userId });
+    }).then(function (nowuser) {
+        var focus = -1;
+        for (var i = 0; i < nowuser.focus.length; i++) {
+            if (nowuser.focus[i].name == id) {
+                focus = i;
+                break;
+            }
+        }
+        if (isFan != -1) {
+            //取消
+            nowuser.focus.splice(focus, 1);
+            responseData.message = '取关成功';
+            nowuser.save();
+        }
+        else {
+            nowuser.focus.push({
+                id: id,
+                name: name
+            });
+            responseData.message = '关注成功';
+            nowuser.save();
+        }
+        console.log(responseData);
+        res.json(responseData);
+    });
 });
 module.exports = router;//把router的结果作为模块的输出返回出去！

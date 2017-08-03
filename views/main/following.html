@@ -1,0 +1,157 @@
+{% extends 'nav-bar.html'%} {% block main%} {% if userInfo._id %}
+<div class="my-view">
+	<div class="my-view-left">
+		<div class="userInfo">
+			<img src="{{userInfo.headimg}}" />
+			<div>
+				<h2 style="padding-top: 1rem;">{{userInfo.username}}</h2></div>
+			<div style="width: 500px;">
+				<a href="/following">
+					<span style="margin-right: 25px;">关注 - {{userInfo.focus.length}}</span>
+				</a>|
+				<a href="/following">
+					<span style="margin-right: 25px;">粉丝 - {{userInfo.fans.length}}</span>
+				</a>|
+				<a href="/myArticles">
+					<span style="margin-right: 25px;">文章 - {{contents.length}}</span>
+				</a>
+			</div>
+		</div>
+		<hr>
+		<div class="my-postlist">
+			<h3>关注用户 {{userInfo.focus.length}}</h3>
+			<ul>
+				{% for user in users %}
+				<li class="focus-list">
+					<div class="my-headimg">
+						<img src="{{user.headimg}}" />
+					</div>
+					<div class="user-info">
+						<div>{{user.username}}</div>
+						<div>
+							<span>关注：{{user.focus.length}}</span>|
+							<span>粉丝：{{user.fans.length}}</span>
+						</div>
+					</div>
+					<div class="focus-u-div">
+						<a href="javascript:;" class="focus-u focus-active" id="{{user._id.toString()}}/{{user.username}}">
+							<i class="fa fa-check"></i> 已关注
+						</a>
+					</div>
+				</li>
+				<hr style="margin-top: 10px;" /> {% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="my-view-right">
+		<ul class="my-view-right-ul">
+			<li>
+				<i class="fa fa-address-card"></i>
+				<span>个人介绍</span>
+				<p>{{userInfo.introduction}}</p>
+				<hr />
+			</li>
+			<li>
+				<div class="ul-title">
+					<i class="fa fa-eye"></i>
+					<span>阅读排行</span>
+				</div>
+				<ul class="mid-ul">
+					{% for content in contents %}
+					<li>
+						<span>{{content.title}}</span>
+						<span>({{content.views}})</span>
+					</li>
+					{% endfor %}
+				</ul>
+				<hr />
+			</li>
+			<li>
+				<div class="ul-title">
+					<i class="fa fa-heart-o"></i>
+					<span>热门排行</span>
+				</div>
+				<ul class="mid-ul">
+					{% for cnt in count%}
+					<li>
+						<span>{{cnt.title}}</span>
+						<span>({{cnt.liked}})</span>
+					</li>
+					{% endfor %}
+				</ul>
+				<hr />
+			</li>
+			<li>
+				<div class="ul-title">
+					<i class="fa fa-comment-o"></i>
+					<span>评论排行</span>
+				</div>
+				<ul class="mid-ul">
+					{% for cnt in commentCnt%}
+					<li>
+						<span>{{cnt.title}}</span>
+						<span>({{cnt.commentsCnt}})</span>
+					</li>
+					{% endfor %}
+				</ul>
+				<!--<hr />-->
+			</li>
+		</ul>
+	</div>
+</div>
+{% else %}
+<script type="text/javascript">
+	location.href = '/login';
+</script>
+{% endif %}
+<script type="text/javascript">
+	$(".articleDesp").dotdotdot();
+	$('.nav-content').removeClass('active-bar');
+	$('.nav-content').eq(3).addClass('active-bar');
+	$('.my-view-right-ul li').click(function() {
+		$(this).children().eq(1).slideToggle(300);
+	})
+	$(".focus-u").click(function() {
+		var index = $(this).index('.focus-u');
+		var info = $(this).attr('id').split('/');
+		var id = info[0];
+		var name = info[1];
+		console.log(id);
+		$.ajax({
+			type: "post",
+			url: "api/focus",
+			data: {
+				id: id,
+				name: name
+			},
+			dataType: 'json',
+			success: function(data) {
+				swal('', data.message, 'success');
+				$('.main-auther-message').eq(index).children().eq(1).text("粉丝：" + data.nowfans);
+				if(data.message == "关注成功") {
+					$('.focus-u').eq(index).html('<i class="fa fa-check"></i> 已关注');
+					$('.focus-u').eq(index).addClass('focus-active');
+				} else if(data.message == "取关成功") {
+					$('.focus-u').eq(index).html('<i class="fa fa-plus"></i> 关注');
+					$('.focus-u').eq(index).removeClass('focus-active');
+				}
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	});
+	$('#logout').click(function() {
+			$.ajax({
+				type: 'get',
+				url: '/api/user/logout',
+				success: function(data) {
+					console.log(data);
+					if(!data.code) {
+						location.href = "/login";
+					}
+				}
+			});
+		});
+</script>
+{% endblock %}
