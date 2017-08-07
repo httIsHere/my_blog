@@ -111,14 +111,18 @@ li {
 	border: 2px solid #88c1bc;
 }
 
-.blog-search button[type=submit] {
+.blog-search a {
 	width: 60px;
 	height: 34px;
-	border: 2px solid #88c1bc;
+	/*border: 2px solid #88c1bc;*/
+	text-align: center;
+	line-height: 34px;
 	background: #88c1bc;
 	color: #FFF;
 }
-
+.blog-search a:hover{
+	cursor: pointer;
+}
 .blog-calender,
 .blog-category {
 	padding: 0;

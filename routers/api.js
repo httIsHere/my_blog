@@ -197,7 +197,8 @@ router.post('/focus', function (req, res, next) {
         else {
             nowuser.focus.push({
                 id: id,
-                name: name
+                name: name,
+                focus:req.body
             });
             responseData.message = '关注成功';
             nowuser.save();

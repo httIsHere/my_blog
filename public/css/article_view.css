@@ -65,12 +65,15 @@
 	color: #88C1BC;
 }
 code{
-	background: rgba(0,0,0,0.8);
+	background: rgba(0,0,0,0.7);
 	padding: 10px;
 	display: block;
 	color: #FFF;
 	border-radius: 5px;
 	margin: 10px 0;
+	word-wrap: break-word;
+    word-break: break-all;
+    overflow-x: scroll;
 }
 .article-content li{
 	list-style: square inside;

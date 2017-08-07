@@ -112,7 +112,7 @@ router.get('/article', function (req, res, next) {
         categories: [],
         count: 0,
         page: Number(req.query.page || 1),
-        limit: 3,
+        limit: 5,
         pages: 0
     };
     var where = {};
@@ -250,6 +250,34 @@ router.post('/postedit', function (req, res, next) {
             userInfo: req.userInfo,
             message: '文章发布成功！'
         });
+    });
+});
+//blog-search
+router.get('/search', function (req, res, next) {
+    var key = req.query.key;
+    var type = req.query.type || '';
+    console.log(key);
+    var data = {
+        key:key,
+        type:type,
+        userInfo: req.userInfo,
+        contents: null,
+        users: null
+    }
+    Content.find({
+        title:  new RegExp("^.*"+key+".*$")
+    }).populate(['category', 'user']).then(function(contents){
+        data.contents = contents;
+        return User.find({
+            username: new RegExp("^.*"+key+".*$")
+        });
+    }).then(function(users){
+        data.users = users;
+        console.log(data);
+        if(type == "note")
+            res.render('main/searchResult',data);
+        else
+            res.render('main/userResult', data);
     });
 });
 //文章列表
@@ -519,7 +547,6 @@ router.post('/uploadHead', function (req, res, next) {
                 responseData.result = 'ok';
                 responseData.image = userInfo.headimg;
                 res.json(responseData);
-
             })
         }
     });

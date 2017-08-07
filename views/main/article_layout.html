@@ -63,7 +63,7 @@
 					<div class="container-right">
 						<div class="blog-search">
 							<input type="text" name="blog-search" id="blog-search" placeholder="搜索" />
-							<button type="submit" name="search-btn" id="search-btn">GO</button>
+							<a id="search-btn">GO</a>
 						</div>
 						<div class="blog-write-btn">
 							<a href="/postedit"><i class="fa fa-pencil fa-fw"></i> 写文章</a>
@@ -106,6 +106,13 @@
 				width: 320,
 				height: 320
 			});
+			//搜索
+			$('#search-btn').click(function() {
+				var key = $('#blog-search').val();
+				var myurl = "/search?key="+key;
+				$('#search-btn').attr('href', myurl);
+			});
+
 			//评论
 			$('#commentBtn').click(function() {
 				$.ajax({
