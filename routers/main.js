@@ -43,7 +43,7 @@ router.get('/', function (req, res, next) {
         data.count = count;
         //计算总页数
         data.pages = Math.ceil(data.count / data.limit);
-        data.page = Math.floor(Math.random()*data.pages)+1;
+        data.page = Math.floor(Math.random() * data.pages) + 1;
         console.log(data.page);
         // 取值不超过pages
         data.page = Math.min(data.page, data.pages);
@@ -57,44 +57,32 @@ router.get('/', function (req, res, next) {
         console.log(users);
         for (var j = 0; j < users.length; j++) {
             var isFan = -1;
+            if (users[j].username == req.userInfo.username) {
+                isFan = -2;
+                continue;
+            }
             for (var i = 0; i < users[j].fans.length; i++) {
                 if (users[j].fans[i].name == req.userInfo.username) {
                     isFan = i;
                     break;
                 }
             }
-            if (isFan != -1) {
-                users[j].myFan = true;
+            if (isFan == -2) {
+                users[j].isMe = false;
+            }
+            else if (isFan == -1) {
+                users[j].myFan = false;
+                users[j].isMe = true;
             }
             else {
-                users[j].myFan = false;
+                users[j].myFan = true;
+                users[j].isMe = true;
             }
         }
         data.users = users;
         console.log(data);
         res.render('main/index', data);
     });
-    // User.find().then(function (users) {
-    //     // for (user in users) {
-    //     for (var j = 0; j < users.length; j++) {
-    //         var isFan = -1;
-    //         for (var i = 0; i < users[j].fans.length; i++) {
-    //             if (users[j].fans[i].name == req.userInfo.username) {
-    //                 isFan = i;
-    //                 break;
-    //             }
-    //         }
-    //         if (isFan != -1) {
-    //             users[j].myFan = true;
-    //         }
-    //         else {
-    //             users[j].myFan = false;
-    //         }
-    //     }
-    //     data.users = users;
-    //     console.log(data);
-    //     res.render('main/index', data);
-    // });
 });
 //登录
 router.get('/login', function (req, res, next) {
@@ -258,26 +246,57 @@ router.get('/search', function (req, res, next) {
     var type = req.query.type || '';
     console.log(key);
     var data = {
-        key:key,
-        type:type,
+        key: key,
+        type: type,
         userInfo: req.userInfo,
         contents: null,
         users: null
     }
     Content.find({
-        title:  new RegExp("^.*"+key+".*$")
-    }).populate(['category', 'user']).then(function(contents){
+        title: new RegExp("^.*" + key + ".*$")
+    }).populate(['category', 'user']).then(function (contents) {
+        //highlight??
+        // for(var i = 0; i < contents.length; i++){
+        //     contents[i].title = contents[i].title.replace(key, `<em color=red>${key}</em>`);
+        // }
         data.contents = contents;
         return User.find({
-            username: new RegExp("^.*"+key+".*$")
+            username: new RegExp("^.*" + key + ".*$")
         });
-    }).then(function(users){
+    }).then(function (users) {
         data.users = users;
         console.log(data);
-        if(type == "note")
-            res.render('main/searchResult',data);
-        else
+        if (type == "note" || type == '')
+            res.render('main/searchResult', data);
+        else {
+            for (var j = 0; j < users.length; j++) {
+                var isFan = -1;
+                if (users[j].username == req.userInfo.username) {
+                    isFan = -2;
+                    continue;
+                }
+                for (var i = 0; i < users[j].fans.length; i++) {
+                    if (users[j].fans[i].name == req.userInfo.username) {
+                        isFan = i;
+                        break;
+                    }
+                }
+                if (isFan == -2) {
+                    users[j].isMe = false;
+                }
+                else if (isFan == -1) {
+                    users[j].myFan = false;
+                    users[j].isMe = true;
+                }
+                else {
+                    users[j].myFan = true;
+                    users[j].isMe = true;
+                }
+            }
+            data.users = users;
+            console.log(data);
             res.render('main/userResult', data);
+        }
     });
 });
 //文章列表

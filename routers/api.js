@@ -2,6 +2,8 @@ var express = require('express');
 
 // 创建一个路由对象，此对象将会监听api文件夹下的url
 var router = express.Router();
+//用于文件移动保存
+var fs = require("fs");
 // 请求模型中的User.js。
 var User = require('../models/User');
 var Content = require('../models/Contents');
@@ -205,6 +207,28 @@ router.post('/focus', function (req, res, next) {
         }
         console.log(responseData);
         res.json(responseData);
+    });
+});
+//upload image
+router.post('/uploadImage', function (req, res, next) {
+    //后缀
+    var type = 'jpg';
+    var data = req.body.data;
+    //去掉图片base64码前面部分data:image/png;base64
+    var base64 = data.replace(/^data:image\/\w+;base64,/, "");
+    var dataBuffer = new Buffer(base64, 'base64');
+    var num = Math.random();
+    var filename = req.userInfo._id.toString() + '_' + num + '.' + type;
+    var des_file = "public\\contentimg\\" + filename;
+    fs.writeFile(des_file, dataBuffer, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+                responseData.result = 'ok';
+                responseData.image = "../../public/contentimg/" + filename;
+                res.json(responseData);
+        }
     });
 });
 module.exports = router;//把router的结果作为模块的输出返回出去！

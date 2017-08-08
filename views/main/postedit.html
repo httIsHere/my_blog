@@ -1,11 +1,4 @@
 {% extends 'nav-bar.html'%} {% block main%} {% if userInfo._id %}
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<!--<script>tinymce.init({ 
-	selector: 'textarea',
-	language_url: '../../public/js/zh_CN.js',
-	api_key:'xagkqjfh3d72rkklhpsuk3fu7kg4d8rbcch0q8m72kd0tc41'
-});
-</script>-->
 <div class="postedit-view">
 	<div class="userInfo">
 		<span><a href="/myTTBLOG">{{userInfo.username}}</a></span>
@@ -27,13 +20,170 @@
 		<textarea id="description" class="form-control" rows="3" name="description"></textarea>
 		<br>
 		<span style="line-height: 20px;">文章正文</span><br>
+		<div class="smallTips">
+			<div data-am-popover="{content: '加粗', trigger: 'hover focus'}">
+				<i class="fa fa-bold"></i>
+			</div>
+			<div data-am-popover="{content: '斜体', trigger: 'hover focus'}">
+				<i class="fa fa-italic"></i>
+			</div>
+			<div data-am-popover="{content: '标题', trigger: 'hover focus'}">
+				<i class="fa fa-header"></i>
+			</div>
+			<div data-am-popover="{content: '链接', trigger: 'hover focus'}">
+				<i class="fa fa-link"></i>
+			</div>
+			<div data-am-popover="{content: '引用', trigger: 'hover focus'}">
+				<i class="fa fa-indent"></i>
+			</div>
+			<div data-am-popover="{content: '代码块', trigger: 'hover focus'}">
+				<i class="fa fa-code"></i>
+			</div>
+			<div data-am-popover="{content: '图片', trigger: 'hover focus'}" data-toggle="modal" data-target="#uploadImg">
+				<i class="fa fa-picture-o"></i>
+			</div>
+		</div>
 		<textarea id="article-content" class="form-control" rows="20" name="content"></textarea>
-		<!--<div id='edit' style="margin-top: 30px;"></div>-->
 	</form>
+</div>
+<!--上传图片-->
+<div class="modal fade" id="uploadImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">插入图片</h4>
+			</div>
+			<div class="modal-body">
+
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active">
+						<a href="#onlineImg" data-toggle="tab">在线图片</a>
+					</li>
+					<li>
+						<a href="#upload" data-toggle="tab">上传图片</a>
+					</li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="onlineImg">
+						<p>图片书写格式为：图片地址 + 空格 + 图片提示</p>
+						<input type="text" name="online" id="online" class="form-control" placeholder="http://example.com/ example" />
+					</div>
+					<div class="tab-pane fade" id="upload">
+						<br />
+						<input type="file" name="file" id="file" required="required" />
+						<br />
+						<input type="button" name="uploadImage" id="uploadImage" value="上传" class="btn btn-mybtn" />
+						<p>1、图片大小不能超过2M，2、支持格式：.jpg .png .bmp</p>
+						<div id="successTip">
+							<i class="fa fa-check"></i>上传成功
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-mybtn" id="insertImg" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
 </div>
 {% else %}
 <script type="text/javascript">
 	location.href = '/login';
 </script>
 {% endif %}
+<script type="text/javascript">
+	$("#file").fileinput({
+		language: 'zh',
+		'theme': 'explorer',
+		'uploadUrl': '#',
+		showUpload: false, //是否显示上传按钮
+		showRemove: false,
+		overwriteInitial: false,
+		dropZoneEnabled: false, //是否显示拖拽区域
+		browseClass: "btn btn-mybtn", //按钮样式  
+		allowedFileExtensions: ['jpg', 'png', 'bmp']
+	});
+	$('.smallTips div').click(function() {
+		var index = $(this).index();
+		switch(index) {
+			case 0:
+				$('#article-content').val($('#article-content').val() + "**在这里输入需要加粗文字**\n");
+				break;
+			case 1:
+				$('#article-content').val($('#article-content').val() + "*在这里输入需要加斜体文字*\n");
+				break;
+			case 2:
+				$('#article-content').val($('#article-content').val() + "# 在这里输入标题\n");
+				break;
+			case 3:
+				swal({
+						title: "<small>添加链接</small>",
+						text: '链接书写格式为：链接地址+空格+链接提示',
+						type: "input",
+						showCancelButton: true,
+						closeOnConfirm: false,
+						animation: "slide-from-top",
+						inputPlaceholder: 'http://example.com/ example',
+						html: true
+					},
+					function(inputValue) {
+						if(inputValue === false) return false;
+
+						if(inputValue === "") {
+							swal.showInputError("你需要添加有效链接");
+							return false
+						}
+						var mylink = inputValue.split(' ');
+						$('#article-content').val($('#article-content').val() + `[${mylink[1]}](${mylink[0]})\n`);
+						swal.close();
+					});
+				break;
+			case 4:
+				$('#article-content').val($('#article-content').val() + "> 在这里输入引用内容\n");
+				break;
+			case 5:
+				$('#article-content').val($('#article-content').val() + "```\n在这里输入代码块\n```\n");
+				break;
+			case 6:
+				$('#insertImg').click(function() {
+					//					获得输入框内的值
+					var img = $('#online').val();
+					if(img != '') {
+						var myimg = img.split(' ');
+						$('#article-content').val($('#article-content').val() + `![${myimg[1]}](${myimg[0]})\n`);
+					}
+				});
+				$('#uploadImage').click(function() {
+					var img = $('#file').get(0).files[0];
+					console.log(img);
+					if(!/image\/\w+/.test(img.type)) {
+						alert("请确保文件为图像类型");
+						return false;
+					}
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						console.log(e.target.result);
+						$.ajax({
+							type: "post",
+							url: "/api/uploadImage",
+							data: {data:e.target.result.toString()},
+							dataType: 'json',
+							success: function(data) {
+								console.log(data);
+								if(data.code == 0)
+									$('#online').val(data.image + ' 输入图片提醒');
+							}
+						});
+					}
+					reader.readAsDataURL(img);
+				});
+				break;
+		}
+	})
+</script>
 {% endblock %}

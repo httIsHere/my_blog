@@ -6,6 +6,38 @@ a{
 	color: #000;
 	text-decoration: none;
 }
+.btn-mybtn{
+	background: #88C1BC;
+	color: #FFF;
+}
+/*发布文章页面*/
+.smallTips{
+	height: 30px;
+	background: #E5E5E5;
+	width: 100%;
+	border: 1px solid #CCCCCC;
+	border-bottom: 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	/*padding: 0 20px;*/
+}
+.smallTips div{
+	width: 40px;
+	height: 30px;
+	text-align: center;
+}
+.smallTips div:hover{
+	background: #CCCCCC;
+}
+#upload input[type=button]{
+	width: 100%;
+}
+#upload #successTip{
+	text-align: center;
+	color: orange;
+	display: none;
+}
 .postedit-view ,.postlist-view,.my-view{
 	width: 960px;
 	padding: 20px;

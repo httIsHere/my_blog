@@ -106,5 +106,15 @@
 	$('li').eq(1).click(function() {
 		$(this).children('a').attr('href', "http://localhost:9001/search?key=" + key + "&type=user");
 	});
+	for(var i = 0; i < $('.content-details h2').length; i++){
+		var str = $('.content-details h2').eq(i).text();
+//		var cont = $('.content-details div').eq(i).text();
+		str = str.replace(key, `<font class='highlight'>${key}</font>`);
+//		cont = cont.replace(key, `<font class='highlight'>${key}</font>`);
+		$('.content-details h2').eq(i).html(str);
+//		$('.content-details div').eq(i).html(cont);
+//		console.log(str);
+//		console.log(cont);
+	}
 </script>
 {% endblock %}

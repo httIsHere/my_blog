@@ -21,78 +21,39 @@
 		</ul>
 	</div>
 	<div class="result">
-		<div class="other">
-			<div class="info">
-				<span>相关用户</span>
-				<a href="http://localhost:9001/search?key={{key}}&type=user">查看全部></a>
-			</div>
-			{% if users.length>0 %}
-			<div class="detail">
-				{% if users[0] %}
-				<div class="user-info">
-						<img src="{{users[0].headimg}}"/>
-						<strong>{{users[0].username}}</strong>
-						<div>
-							<span>关注：{{users[0].focus.length}}</span>
-							<span>粉丝：{{users[0].fans.length}}</span>
-						</div>
+		<div style="text-align: right;">{{users.length}}个结果</div>
+		<ul>
+			{% for user in users%}
+			<li>
+				<img src="{{user.headimg}}" />
+				<div class="main-auther-message">
+					<div>{{user.username}}</div>
+					<div style="display: inline-block;">关注：<span id="focus">{{user.focus.length}}</span></div> |
+					<div style="display: inline-block;">粉丝：<span id="fans">{{user.fans.length}}</span></div>
 				</div>
-				{% endif %}			
-				{% if users[1] %}
-				<div class="user-info">
-						<img src="{{users[1].headimg}}"/>
-						<strong>{{users[1].username}}</strong>
-						<div>
-							<span>关注：{{users[1].focus.length}}</span>
-							<span>粉丝：{{users[1].fans.length}}</span>
-						</div>
+				{% if user.isMe %}
+				<div class="focus-btn">
+					{% if user.myFan %}
+					<a href="javascript:;" class="focus-u focus-active" id="{{user._id.toString()}}/{{user.username}}">
+						<i class="fa fa-check"></i> 已关注
+					</a>
+					{% else %}
+					<a href="javascript:;" class="focus-u" id="{{user._id.toString()}}/{{user.username}}">
+						<i class="fa fa-plus"></i> 关注
+					</a>
+					{% endif %}
 				</div>
-				{% endif %}		
-				{% if users[2] %}
-				<div class="user-info">
-						<img src="{{users[2].headimg}}"/>
-						<strong>{{users[2].username}}</strong>
-						<div>
-							<span>关注：{{users[2].focus.length}}</span>
-							<span>粉丝：{{users[2].fans.length}}</span>
-						</div>
-				</div>
-				{% endif %}		
-			</div>
-			{% else %}
-			<div class="detail">
-				<div style="margin: 0 auto;">无相应用户</div>
-			</div>
-			{% endif %}
-		</div>
-		<div style="text-align: right;">{{contents.length}}个结果</div>
-		<div class="contents-block">
-			{% for content in contents %}
-			<div class="content-detail">
-				<hr />
-				<div class="user-info">
-					<img src="{{content.user.headimg}}"/>
-					<span>{{content.user.username}}&nbsp;&nbsp;&nbsp;</span>
-					<span>{{content.date}}</span>
-				</div>
-				<br />
-				<div class="content-details">
-					<h2>{{content.title}}</h2>
-					<div class="articleDesp2">{{content.content}}</div>
-				</div>
-				<div class="lookInfo">
-					<span><i class="fa fa-eye"></i> {{content.views}}</span>
-					<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
-					<span><i class="fa fa-heart-o"></i> {{content.liked}}</span>
-				</div>
-			</div>
+				{% else %}
+				<div class="focus-btn"></div>
+				{% endif %}
+			</li>
 			{% endfor %}
-		</div>
+		</ul>
 	</div>
 </div>
 <div class="return-top">
 	<a href="#topAnchor">
-		<img src="../../public/images/arrow_down.png"/>
+		<img src="../../public/images/arrow_down.png" />
 		<div>回到顶部</div>
 	</a>
 </div>
