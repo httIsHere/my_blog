@@ -52,5 +52,6 @@ module.exports = new mongoose.Schema({
     isDelete: {
         type: Boolean,
         default: false
-    }
+    },
+    coverImg: String
 });

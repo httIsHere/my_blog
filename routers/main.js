@@ -12,6 +12,9 @@ var marked = require('marked');
 var multer = require('multer');//用于上传文件
 //用于文件移动保存
 var fs = require("fs");
+//表单提交上传
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 // 统一返回格式
 var responseData = null;
@@ -27,34 +30,38 @@ router.use(function (req, res, next) {
 router.get('/', function (req, res, next) {
     var data = {
         userInfo: req.userInfo,
-        category: req.query.category || '',
         categories: [],
         count: 0,
         page: Number(req.query.page || 1),
         limit: 5,
         pages: 0,
-        users: []
+        users: [],
+        contents: []
     };
 
     Category.find().then(function (categories) {
         data.categories = categories;
-    });
-    User.count().then(function (count) {
+        return Content.find({
+            "$where": function () {
+                return this.coverImg != null && this.coverImg != ''
+            }
+        }).sort({date:-1}).populate(['user','category']);
+    }).then(function (contents) {
+        data.contents = contents;
+        return User.count();
+    }).then(function (count) {
         data.count = count;
         //计算总页数
         data.pages = Math.ceil(data.count / data.limit);
         data.page = Math.floor(Math.random() * data.pages) + 1;
-        console.log(data.page);
         // 取值不超过pages
         data.page = Math.min(data.page, data.pages);
         // 取值不小于1
         data.page = Math.max(data.page, 1);
-        console.log(data.page);
         // skip不需要分配到模板中，所以忽略。
         var skip = (data.page - 1) * data.limit;
         return User.find().limit(data.limit).skip(skip).sort({ date: -1 });
     }).then(function (users) {
-        console.log(users);
         for (var j = 0; j < users.length; j++) {
             var isFan = -1;
             if (users[j].username == req.userInfo.username) {
@@ -231,8 +238,9 @@ router.post('/postedit', function (req, res, next) {
         title: req.body.title,
         description: req.body.description,
         content: req.body.content,
-        date: new Date().toLocaleString(),
-        user: req.userInfo._id
+        date: new Date().toLocaleString().replace(/:\d{1,2}$/, ' '),
+        user: req.userInfo._id,
+        coverImg: req.body.coverImage
     }).save().then(function () {
         res.render('main/success', {
             userInfo: req.userInfo,
@@ -255,10 +263,6 @@ router.get('/search', function (req, res, next) {
     Content.find({
         title: new RegExp("^.*" + key + ".*$")
     }).populate(['category', 'user']).then(function (contents) {
-        //highlight??
-        // for(var i = 0; i < contents.length; i++){
-        //     contents[i].title = contents[i].title.replace(key, `<em color=red>${key}</em>`);
-        // }
         data.contents = contents;
         return User.find({
             username: new RegExp("^.*" + key + ".*$")
@@ -301,16 +305,24 @@ router.get('/search', function (req, res, next) {
 });
 //文章列表
 router.get('/postlist', function (req, res, next) {
+    console.log(req.userInfo);
+    var data = {
+                userInfo: null,
+                contents: []
+            };
     Content.find({
         user: req.userInfo._id,
         isDelete: false
     }).sort({ date: -1 })
         .then(function (contents) {
-            console.log(contents);
-            res.render('main/postlist', {
-                userInfo: req.userInfo,
-                contents: contents
+            data.contents = contents;
+            return User.findOne({
+                _id:req.userInfo._id
             });
+        }).then(function(user){
+            data.userInfo = user;
+            console.log(data);
+            res.render('main/postlist', data);
         });
 });
 //文章编辑

@@ -4,13 +4,58 @@
 		<!--图片展示区-->
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide">Slide 1</div>
-				<div class="swiper-slide">Slide 2</div>
-				<div class="swiper-slide">Slide 3</div>
+				<div class="swiper-slide">
+					<img src="http://upload-images.jianshu.io/upload_images/3404372-80da392ea5e7a9a6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/q/50"/>
+				</div>
+				<div class="swiper-slide">
+					<img src="http://upload-images.jianshu.io/upload_images/4245626-9b332600c1cc79b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"/>
+				</div>
+				<div class="swiper-slide">
+					<img src="http://upload-images.jianshu.io/upload_images/3678149-668e25bacdeee5b3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" />
+				</div>
 			</div>
 			<div class="swiper-pagination"></div>
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
+		</div>
+		<!--分类区-->
+		<div class="cate-view">
+			{% for cate in categories %}
+			<div class="cate-tag">
+				<img src="http://upload.jianshu.io/collections/images/477019/timg.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240" />
+				{{cate.name}}
+			</div>
+			{% endfor %}
+		</div>
+		<!--显示有封面图的文章-->
+		<div class="cover-view">
+			{% if contents %}
+			{% for content in contents %}
+			<div class="coverContent">
+				<div class="cover-userInfo">
+					<img src="{{content.user.headimg}}" />
+					<span>{{content.user.username}}</span>
+					<span>{{content.date}}</span>
+				</div>
+				<div class="mainContent">
+					<div>
+						<h3><a href="/view?contentId={{content._id.toString()}}">{{content.title}}</a></h3>
+						<div class="articleDesp2">{{content.content}}</div>
+					</div>
+					<a href="/view?contentId={{content._id.toString()}}">
+						<img src="{{content.coverImg}}"/>
+					</a>
+				</div>
+				<div class="showDetail">
+					<div>{{content.category.name}}</div>
+					<span><i class="fa fa-eye"></i> {{content.views}}</span>
+					<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
+					<span><i class="fa fa-heart-o"></i> {{content.liked}}</span>
+				</div>
+				<hr style="border-top: 1px solid #E0E0E0;" />
+			</div>
+			{% endfor %}
+			{% endif %}
 		</div>
 	</div>
 
@@ -24,11 +69,12 @@
 			<div style="display: flex;justify-content: space-between;align-items: center;">
 				<span>推荐关注</span>
 				<!--{{pages}}-->
-				{% if page+1<=pages %} 
-				<span><a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a></span>
-				{% else %}
-				<span><a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a></span>
-				{% endif %}
+				{% if page+1
+				<=pages %} <span>
+					<a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a>
+					</span>
+					{% else %}
+					<span><a href=""><i class="fa  fa-circle-o-notch"></i>换一换</a></span> {% endif %}
 			</div>
 			<ul>
 				{% for user in users%}

@@ -44,7 +44,14 @@
 			</div>
 		</div>
 		<textarea id="article-content" class="form-control" rows="20" name="content"></textarea>
+		<br />
+		<input type="hidden" name="coverImage" id="coverImage" value="" />
 	</form>
+		<span>封面图(<small>可以不上传</small>)：</span>
+		<input type="file" name="file" id="cover" required="required" />
+		<br />
+		<input type="button" name="uploadImage" id="coverBtn" value="上传" class="btn btn-mybtn" />
+		<p>1、图片大小不能超过2M，2、支持格式：.jpg .png .bmp</p>
 </div>
 <!--上传图片-->
 <div class="modal fade" id="uploadImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -98,6 +105,17 @@
 {% endif %}
 <script type="text/javascript">
 	$("#file").fileinput({
+		language: 'zh',
+		'theme': 'explorer',
+		'uploadUrl': '#',
+		showUpload: false, //是否显示上传按钮
+		showRemove: false,
+		overwriteInitial: false,
+		dropZoneEnabled: false, //是否显示拖拽区域
+		browseClass: "btn btn-mybtn", //按钮样式  
+		allowedFileExtensions: ['jpg', 'png', 'bmp']
+	});
+	$("#cover").fileinput({
 		language: 'zh',
 		'theme': 'explorer',
 		'uploadUrl': '#',
@@ -171,7 +189,9 @@
 						$.ajax({
 							type: "post",
 							url: "/api/uploadImage",
-							data: {data:e.target.result.toString()},
+							data: {
+								data: e.target.result.toString()
+							},
 							dataType: 'json',
 							success: function(data) {
 								console.log(data);
@@ -184,6 +204,33 @@
 				});
 				break;
 		}
-	})
+	});
+	$('#coverBtn').click(function() {
+		var img = $('#cover').get(0).files[0];
+		console.log(img);
+		if(!/image\/\w+/.test(img.type)) {
+			alert("请确保文件为图像类型");
+			return false;
+		}
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			console.log(e.target.result);
+			$.ajax({
+				type: "post",
+				url: "/api/coverImage",
+				data: {
+					data: e.target.result.toString()
+				},
+				dataType: 'json',
+				success: function(data) {
+					if(data.code == 0){
+						alert('上传成功');
+						$('#coverImage').val(data.image);
+					}
+				}
+			});
+		}
+		reader.readAsDataURL(img);
+	});
 </script>
 {% endblock %}

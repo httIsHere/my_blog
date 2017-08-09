@@ -40,7 +40,7 @@ router.post('/user/register', function (req, res, next) {
             var user = new User({
                 username: username,
                 password: password,
-                date: new Date().toLocaleString()
+                date: new Date().toLocaleString().replace(/:\d{1,2}$/,' ')
             });
             return user.save();
         }
@@ -114,7 +114,7 @@ router.post('/comment/post', function (req, res, next) {
         var postData = {
             id: req.userInfo._id.toString(),
             username: req.userInfo.username,
-            postTime: new Date().toLocaleString(),
+            postTime: new Date().toLocaleString().replace(/:\d{1,2}$/,' '),
             content: req.body.content
         };
         // 查询当前内容信息
@@ -227,6 +227,28 @@ router.post('/uploadImage', function (req, res, next) {
         else {
                 responseData.result = 'ok';
                 responseData.image = "../../public/contentimg/" + filename;
+                res.json(responseData);
+        }
+    });
+});
+//upload cover image
+router.post('/coverImage', function (req, res, next) {
+    //后缀
+    var type = 'jpg';
+    var data = req.body.data;
+    //去掉图片base64码前面部分data:image/png;base64
+    var base64 = data.replace(/^data:image\/\w+;base64,/, "");
+    var dataBuffer = new Buffer(base64, 'base64');
+    var num = Math.random();
+    var filename = req.userInfo._id.toString() + '_' + num + '.' + type;
+    var des_file = "public\\coverimg\\" + filename;
+    fs.writeFile(des_file, dataBuffer, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+                responseData.result = 'ok';
+                responseData.image = "../../public/coverimg/" + filename;
                 res.json(responseData);
         }
     });
