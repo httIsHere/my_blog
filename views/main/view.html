@@ -9,6 +9,11 @@
 		<span><i class="fa fa-comment-o"></i> {{content.comments.length}}</span>
 	</div>
 	<div class="article-desp">{{content.description}}</div>
+	{% if content.coverImg %}
+	<div class="article-coverImg">
+		<img src="{{content.coverImg}}" style="width: 810px;"/>
+	</div>
+	{% endif %}
 	<div class="article-content" style="margin-top: 20px;">{{content.content}}</div>
 	<div class="article-liked"><i class="fa fa-heart-o"></i> 喜欢 | {{content.liked}}</div>
 </div>
