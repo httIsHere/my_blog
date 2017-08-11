@@ -1,5 +1,4 @@
-{% extends 'article_layout.html' %} 
-{% block main %}
+{% extends 'article_layout.html' %} {% block main %}
 <div class="article-detail">
 	<h2>{{content.title}}</h2>
 	<div class="article-info">
@@ -11,21 +10,46 @@
 	<div class="article-desp">{{content.description}}</div>
 	{% if content.coverImg %}
 	<div class="article-coverImg">
-		<img src="{{content.coverImg}}" style="width: 810px;"/>
+		<img src="{{content.coverImg}}" style="width: 810px;" />
 	</div>
 	{% endif %}
 	<div class="article-content" style="margin-top: 20px;">{{content.content}}</div>
+	<div class="article-auther">
+		<div class="userInfo">
+			<img src="{{content.user.headimg}}" />
+			<div>
+				<div>
+					<h3>{{content.user.username}}</h3></div>
+				<div style="color: #A0A0A0;">被{{content.user.fans.length}}人关注</div>
+			</div>
+		</div>
+		{% if content.user.isMe %}
+		<div class="focus-btn">
+			{% if user.myFan %}
+			<a href="javascript:;" class="focus-u focus-active" id="{{content.user._id.toString()}}/{{content.user.username}}">
+				<i class="fa fa-check"></i> 已关注
+			</a>
+			{% else %}
+			<a href="javascript:;" class="focus-u" id="{{content.user._id.toString()}}/{{content.user.username}}">
+				<i class="fa fa-plus"></i> 关注
+			</a>
+			{% endif %}
+		</div>
+		{% else %}
+		<div class="focus-btn"></div>
+		{% endif %}
+	</div>
 	<div class="article-liked"><i class="fa fa-heart-o"></i> 喜欢 | {{content.liked}}</div>
 </div>
 <div class="article-comments">
 	<h3 style="margin-top: 0;">评论共{{content.comments.length}}条</h3>
-		<textarea name="content" rows="8" id="comment"></textarea>
-		{% if userInfo._id %}
-		<input type="submit" name="contentBtn" id="commentBtn" value="提交" />
-		<input type="hidden" name="contentId" id="contentId" value="{{content._id.toString()}}" />
-		{% else %}
-		<div class="commentTip"><a href="/login" style="color:#88C1BC">你还没有登录，点击登录</a></div>
-		{% endif %}
+	<textarea name="content" rows="8" id="comment"></textarea> {% if userInfo._id %}
+	<input type="submit" name="contentBtn" id="commentBtn" value="提交" />
+	<input type="hidden" name="contentId" id="contentId" value="{{content._id.toString()}}" /> {% else %}
+	<div class="commentTip">
+		<a href="/login" style="color:#88C1BC">你还没有登录，点击登录</a>
+	</div>
+	{% endif %}
 	<ul class="article-comments-list">
 		{% for comment in content.comments%}
 		<li>
